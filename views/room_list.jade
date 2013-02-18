@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  p List of Rooms
+  div
+    each room, i in rooms
+      div
+        a(href="/rooms/room/#{room._id}")
+          | #{room.name}
+        each user, j in room.users
+          ul
+            li
+              | #{user.name}

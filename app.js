@@ -1,0 +1,71 @@
+
+/**
+ * Module dependencies.
+ */
+
+var express = require('express')
+  , routes = require('./routes')
+  , user = require('./routes/user')
+  , room = require('./routes/room')
+  , video = require('./routes/video')
+  , http = require('http')
+  , path = require('path')
+  , mongoose = require('mongoose')
+  , Facebook = require('facebook-node-sdk');
+
+var app = express();
+
+app.configure(function(){
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.cookieParser('coffee'));
+  app.use(express.session());
+  app.use(Facebook.middleware({ appId: process.env.FB_KEY, secret: process.env.FB_SECRET }));
+  app.use(app.router);
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.methodOverride());
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler());
+  mongoose.connect(process.env.MONGOLAB_URI || 'localhost');
+});
+
+function facebookGetUser() {
+  return function(req, res, next) {
+    req.facebook.getUser( function(err, user) {
+      if (!user || err){
+        res.send("you need to <a href='/login'>login</a>");
+      } else {
+        req.user = user;
+        next();
+      }
+    });
+  }
+}
+
+app.get('/', facebookGetUser(), routes.index);
+app.get('/login', Facebook.loginRequired(), function(req, res){
+  res.redirect('/');
+});
+app.get('/users/list', user.list);
+app.get('/users/delete_all', user.delete_all);
+app.get('/rooms/list', room.list);
+app.get('/rooms/new', facebookGetUser(), room.new);
+app.post('/rooms/create', facebookGetUser(), room.create);
+app.get('/rooms/room/:id', facebookGetUser(), room.show);
+app.get('/rooms/video/:id', facebookGetUser(), room.video);
+app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
+app.get('/rooms/delete_all', room.delete_all);
+app.get('/rooms/show_all', room.show_all);
+app.get('/rooms/getTest', room.getTest);
+app.get('/video/delete_all', video.delete_all);
+app.get('/video/show_all', video.show_all);
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
+});

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  form(method='post', action='/rooms/create', id="newRoomForm")
+    input(type="hidden", name="uid", value=loggedIn._id, id="uid")
+    | New room name? 
+    input(name='name', id="nameinput")
+    button('type='submit')
+      | Done

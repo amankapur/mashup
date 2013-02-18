@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  p List of Users
+  div
+    each user, i in users
+      div
+        img(src=user.photo)
+        |  #{user.fbid}: #{user.name}
