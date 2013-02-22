@@ -1,13 +1,17 @@
 extends layout
 
 block content
-  p List of Rooms
-  div
-    each room, i in rooms
-      div
-        a(href="/rooms/room/#{room._id}")
-          | #{room.name}
-        each user, j in room.users
-          ul
-            li
+  div(class="row")
+    div(class="span6")
+      p Lobby
+      a(href="/rooms/new")
+        | New Room
+    div(class="span6")
+      each room, i in rooms
+        div
+          a(href="/rooms/room/#{room._id}", class="room-list")
+            | #{room.name}
+          each user, j in room.users
+            div(class="user-list")
+              img(src=user.photo)
               | #{user.name}

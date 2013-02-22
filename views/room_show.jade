@@ -1,21 +1,27 @@
 extends layout
 
 block content
+  script(src='/javascripts/room.js')
+  script(charset="utf-8", type="text/javascript", src="http://www.youtube.com/player_api")
   h1
     | #{room.name}
-  div
-    each user, i in room.users
-      ul
-        li
-          | #{user.name}
-  form(method="post", action="/rooms/enqueue", id="enqueueForm")
-    input(type="hidden", name="roomid", value=room._id)
-    input(name='video', id="queueInput") Add a YouTube link for us to watch.
-    button('type='submit' id="submitButton")
-      | Submit
-  div
-    ul
-      each video, j in room.queue
-        li
-          img(src=video.thumbnail)
-          | #{video.title}, added by #{video.added_by.name}
+  div(class="row")
+    div(class="span9")
+      div(id="videoView")
+    div(class="span4")
+      form(method="post", action="/rooms/enqueue", id="enqueueForm")
+        input(type="hidden", name="roomid", value=room._id)
+        input(name='video', id="queueInput") Add a YouTube link for us to watch.
+        button('type='submit' id="submitButton")
+          | Submit
+      div(id="queueView")
+    div(class="span2")
+      div(id="userView")
+        h4
+          | Here:
+        each user, i in room.users
+          div
+            img(src=user.photo)
+            br
+            | #{user.name}
+  
