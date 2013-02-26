@@ -12,17 +12,6 @@ If you accidentally added `node_modules` to your version control (you'll see tha
 
 Use `npm install facebook-node-sdk --save` in order to automatically add it. Check your current `node_modules` folder for what should be in your "dependencies" section of your `package.json`.
 
-## Don't include your Last.fm keys in your repository.
+## You include .DS_Store in your git
 
-See `/app.js` and also `/routes/user.js`.
-
-Use environment variables instead. Add
-
-```
-export LASTFM_KEY=afsdkjasdfkjl
-export LASTFM_SECRET=fkfkfkfkfkf
-```
-
-To a `.gitignore`'d script you run each time you open a terminal, or to your `~/.bashrc` so that it's set every time you open a terminal. Then use `process.env.LASTFM_KEY` instead of a string inside of your source code.
-
-You can set environment variables on Heroku by doing `heroku config:add LASTFM_KEY=sadfasdfadfs`
+Add this on a new line in your `.gitignore` file, then `git rm .DS_Store` it.
