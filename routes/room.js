@@ -5,7 +5,7 @@ var request = require('request');
 
 exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
-    if (err) return handleError(err);
+    if (err) return console.log('DB error', err);
     res.render('room_list', {rooms: docs, title: 'List of rooms'});
   });
 };
@@ -16,7 +16,8 @@ exports.show = function(req, res){
     .populate('users')
     // TODO: need queue.added_by
     .exec(function (err, docs) {
-    res.render('room_show', {room: docs, title: docs.name});
+      if (err) return console.log('DB error', err);
+      res.render('room_show', {room: docs, title: docs.name});
   });
 };
 
@@ -25,11 +26,17 @@ exports.video = function(req, res){
   Room.findOne({ _id : req.params.id })
     .populate('queue', 'ytID', {}, { limit: 1 })
     .exec(function(err,docs){
+      if (err) return console.log('DB error', err);
       if (docs.queue.length != 0){
+        // If there is a video in the queue...
         if (!docs.timeVideoStarted){
+          // ...and if it hasn't been started yet...
+          // TODO: this whole logic breaks down after the first video has completed playing.
           Room.findOneAndUpdate({ _id : req.params.id }, { $set: { timeVideoStarted: Date.now() }})
             .populate('queue', 'ytID', {}, { limit: 1 })
             .exec(function (err, dogs) {
+              // this DB query bothers me (it's basically the same as the initial one..., also "dogs" should be thrown away? '_')
+              if (err) return console.log('DB error', err);
               if (dogs.queue.length != 0) {
                 res.render('room_video', {id: dogs.queue[0].ytID, startOffset: 0});
               } else {
@@ -37,6 +44,7 @@ exports.video = function(req, res){
               }
           });
         } else {
+          // Offset is measured in seconds, Date.now() gives milliseconds
           var offset = 1 + (Date.now() - docs.timeVideoStarted) / 1000;
           res.render('room_video', {id: docs.queue[0].ytID, startOffset: offset});
         }
@@ -47,15 +55,18 @@ exports.video = function(req, res){
 };
 
 exports.queue = function(req, res){
+  // GET endpoint to render the video queue
   Room.findOne({ _id : req.params.id })
     .populate('queue')
     // TODO: need queue.added_by
     .exec(function (err, docs) {
-    res.render('room_queue', {room: docs});
+      if (err) return console.log('DB error', err);
+      res.render('room_queue', {room: docs});
   });
 };
 
 exports.new = function(req, res){
+  // GET endpoint for making a new room
   if (req.session.user) {
     user = req.session.user;
     res.render('room_new', {
@@ -68,14 +79,15 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res){
+  // POST endpoint for making a new room
   Room.findOne({ name : req.body.name }).exec(function (err, docs) {
-    if (err) return console.log('error', err);
+    if (err) return console.log('DB error', err);
     if (docs) {
       // TODO: room with that name already exists.
     } else {
       var new_room = new Room({ name: req.body.name, users: [req.body.uid] });
       new_room.save(function (err) {
-        if (err) return console.log("error", err);
+        if (err) return console.log("DB error", err);
         res.redirect('/rooms/room/'+new_room._id);
       });
     }
@@ -83,9 +95,11 @@ exports.create = function(req, res){
 };
 
 exports.enqueue = function(req, res){
+  // POST endpoint for adding a video to a room's queue
   var user = req.session.user;
   Room.findOne({ _id: req.body.roomid }).exec(function(err, docs){
-    if (err) return console.log('error');
+    if (err) return console.log('DB error');
+    // use request module to get information about the requested video
     request({url:'http://gdata.youtube.com/feeds/api/videos/'+req.body.video+'?v=2&alt=json', json:true}, function (error, response, data) {
       if (!error && response.statusCode == 200) {
         var title = data.entry.title.$t;
@@ -95,11 +109,15 @@ exports.enqueue = function(req, res){
 
         var new_QueueItem = new Video({ ytID: ytID, title: title, thumbnail: thumbnail, added_by: user._id, length: length });
         new_QueueItem.save(function(err) {
+          if (err) return console.log("DB error", err);
           var updatedQueue = docs.queue;
+          // a room's queue is an array of video objects.
           updatedQueue.push(new_QueueItem);
           Room.update({ _id: req.body.roomid }, { $set: { queue: updatedQueue }}).exec();
           res.redirect('/rooms/room/'+req.body.roomid);
         });
+      } else {
+        return console.log('YouTube request error');
       }
     });
   });

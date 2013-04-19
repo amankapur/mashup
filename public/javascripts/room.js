@@ -1,5 +1,6 @@
 $(function () {
   var getQueue = function(){
+    // Make a GET request for the queue view and 
     $.get(window.location.pathname+'/queue', function(data) {
       $('#queueView').html(data);
     });
@@ -11,6 +12,9 @@ $(function () {
     });
   };
 
+  //**********************
+  // needed to handle youtube state transitions, taken from stack overflow
+  //**********************
   function getFrameID(id){
     var elem = document.getElementById(id);
     if (elem) {
@@ -65,11 +69,16 @@ $(function () {
     before.parentNode.insertBefore(s, before);
   })();
 
+  // ****************
+
   getQueue();
   getVideo();
 
   $('#enqueueForm').on('submit', function () {
+    // TODO: video submission form needs some serious validation - right now it only works if you paste in the ytID
     $.post("/rooms/enqueue", $('#enqueueForm').serialize());
+    
+    // ajax-ly put the new video into the queue on the page. maybe a transition would be cool.
     getQueue();
     return false;
   });
@@ -79,6 +88,7 @@ $(function () {
     if (frameID) { //If the frame exists
         player = new YT.Player(frameID, {
             events: {
+                // this is where we define what happens when the video changes state (i.e. is done playing)
                 "onStateChange": stopCycle
             }
         });
