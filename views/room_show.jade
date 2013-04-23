@@ -3,8 +3,7 @@ extends layout
 block content
   script(src='/javascripts/room.js')
   script(charset="utf-8", type="text/javascript", src="http://www.youtube.com/player_api")
-  h1
-    | #{room.name}
+  h1 #{room.name}
   div(class="row")
     div(class="span9")
       div(id="videoView")
@@ -12,16 +11,13 @@ block content
       form(method="post", action="/rooms/enqueue", id="enqueueForm")
         input(type="hidden", name="roomid", value=room._id)
         input(name='video', id="queueInput") Add a YouTube link for us to watch.
-        button('type='submit' id="submitButton")
-          | Submit
+        button(type='submit', id="submitButton") Submit
       div(id="queueView")
     div(class="span2")
       div(id="userView")
-        h4
-          | Here:
+        h4 Here:
         each user, i in room.users
           div
             img(src=user.photo)
-            br
-            | #{user.name}
+            br #{user.name}
   
