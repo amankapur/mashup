@@ -1,0 +1,88 @@
+@font-face {
+    font-family: 'BebasRegular';
+    src: url('../fonts/BEBAS___-webfont.eot');
+    src: url('../fonts/BEBAS___-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/BEBAS___-webfont.woff') format('woff'),
+         url('../fonts/BEBAS___-webfont.ttf') format('truetype'),
+         url('../fonts/BEBAS___-webfont.svg#BebasRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('../fonts/OpenSans-Regular-webfont.eot');
+    src: url('../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'UpperEastSideRegular';
+    src: url('../fonts/UpperEastSide-webfont.eot');
+    src: url('../fonts/UpperEastSide-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/UpperEastSide-webfont.woff') format('woff'),
+         url('../fonts/UpperEastSide-webfont.ttf') format('truetype'),
+         url('../fonts/UpperEastSide-webfont.svg#UpperEastSideRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+body {
+  padding-top: 60px;
+  background-image:url('../img/bg.gif');
+}
+
+.thumbnail {
+  text-align: center;
+}
+
+h1 {
+ font-family: BebasRegular; 
+}
+
+h4, h3{
+  font-family: BebasRegular;
+}
+
+.pagination{
+  font-family: BebasRegular;
+  
+}
+
+.pagination ul > li > a, span{
+  border: 0px;
+}
+
+.nav, .navbar{
+  font-family: BebasRegular;
+}
+
+a{
+  color: #DC143C;
+}
+
+#reds{
+  color: #DC143C;
+}
+
+p{
+  font-family: OpenSansRegular;
+}
+
+#logo{
+  font-family: UpperEastSideRegular;
+  font-size: 50px;
+  color: white;
+}
+
+#chat{
+  height: 270px;
+  overflow: scroll;
+}
