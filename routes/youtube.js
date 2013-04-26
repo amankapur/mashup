@@ -1,5 +1,4 @@
 var YT = require('youtube-feeds');
-var prettyprint = require( 'prettyprint' ).prettyprint;
 
 exports.getvids = function(req, res){
 	query = req.body.query;
