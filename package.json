@@ -11,7 +11,8 @@
     "fb": "0.1.0",
     "mongoose": "3.x",
     "request": "*",
-    "facebook-node-sdk":"*"
+    "facebook-node-sdk":"*",
+    "youtube-feeds" : "*"
   },
     "engines": {
     "node": "0.8.14 ",

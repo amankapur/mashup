@@ -97,8 +97,11 @@ exports.create = function(req, res){
 exports.enqueue = function(req, res){
   // POST endpoint for adding a video to a room's queue
   var user = req.session.user;
+
+  console.log(req.body.roomid);
   Room.findOne({ _id: req.body.roomid }).exec(function(err, docs){
     if (err) return console.log('DB error');
+    console.log(docs);
     // use request module to get information about the requested video
     request({url:'http://gdata.youtube.com/feeds/api/videos/'+req.body.video+'?v=2&alt=json', json:true}, function (error, response, data) {
       if (!error && response.statusCode == 200) {

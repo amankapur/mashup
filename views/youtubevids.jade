@@ -1,0 +1,11 @@
+
+- each vid in videos.items
+		div(class="row video")
+			div(class="span2")
+				img(src= vid.thumbnail.sqDefault)
+			div(class="span3")
+				a(class="btn btn-large addtoq", href="#", id=vid.id)
+					i(class="icon-plus") 
+			div(class="span3")
+				p= vid.title
+

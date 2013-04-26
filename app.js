@@ -11,7 +11,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , mongoose = require('mongoose')
-  , Facebook = require('facebook-node-sdk');
+  , Facebook = require('facebook-node-sdk')
+  , youtube = require('./routes/youtube');
 
 var app = express();
 
@@ -66,6 +67,8 @@ app.get('/rooms/show_all', room.show_all);
 app.get('/rooms/getTest', room.getTest);
 app.get('/video/delete_all', video.delete_all);
 app.get('/video/show_all', video.show_all);
+
+app.post('/getytvids', youtube.getvids);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

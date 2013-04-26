@@ -1,4 +1,28 @@
 $(function () {
+
+  $("#ytsubmit").on('click', function(){
+    query = $("#ytsearch").val();
+    console.log(query);
+
+    $.post('/getytvids', {'query': query}, function(data){
+      $("#ytlist").html(data);
+    });
+  });
+
+
+  $("body").on('click', '.addtoq', function(){
+    id = $(this).attr('id');
+
+    url = document.URL;
+    a = url.split('/');
+    last = a[a.length-1].split('#');
+    room_id = last[0];
+    console.log(room_id);
+    $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
+      getQueue();
+    });
+  });
+
   var getQueue = function(){
     // Make a GET request for the queue view and 
     $.get(window.location.pathname+'/queue', function(data) {
