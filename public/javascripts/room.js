@@ -1,5 +1,13 @@
 $(function () {
 
+
+  var socket = io.connect('http://localhost:3001');
+  
+  socket.on('updatequeue', function (data) {
+    getQueue();
+  });
+
+
   $("#ytsubmit").on('click', function(){
     query = $("#ytsearch").val();
     console.log(query);
@@ -19,7 +27,8 @@ $(function () {
     room_id = last[0];
     console.log(room_id);
     $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
-      getQueue();
+      socket.emit('updatequeue', {});
+      // getQueue();
     });
   });
 

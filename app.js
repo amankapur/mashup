@@ -15,9 +15,17 @@ var express = require('express')
   , youtube = require('./routes/youtube');
 
 var app = express();
+var server = app.listen(process.env.PORT || 3000);
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+  socket.on('updatequeue', function (data) {
+    socket.broadcast.emit('updatequeue', data);
+  });
+});
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  // app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -35,6 +43,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
   mongoose.connect(process.env.MONGOLAB_URI || 'localhost');
 });
+
+
 
 function facebookGetUser() {
   return function(req, res, next) {
