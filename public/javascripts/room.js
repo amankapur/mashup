@@ -1,9 +1,10 @@
 $(function () {
 
 
-  var socket = io.connect('http://localhost:3001');
+  var socket = io.connect('http://localhost:3000');
   
   socket.on('updatequeue', function (data) {
+    console.log('BROADCAST RECEIVED!!');
     getQueue();
   });
 

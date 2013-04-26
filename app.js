@@ -20,6 +20,7 @@ var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
   socket.on('updatequeue', function (data) {
+    socket.emit('updatequeue', data);
     socket.broadcast.emit('updatequeue', data);
   });
 });
