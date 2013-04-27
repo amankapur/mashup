@@ -11,7 +11,7 @@ $(function () {
   });
 
   socket.on('chatupdate', function(data){
-    // console.log('chat BROADCAST RECEIVED');
+    console.log('chat BROADCAST RECEIVED');
 
     if (data.room_id == getRoomID()){
       $("#chatarea").append("<p> <b>" + data.from + ": </b>" +  data.message + "</p>");
