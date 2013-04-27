@@ -1,18 +1,17 @@
 $(function () {
 
-
+  
   var socket = io.connect('http://localhost:3000');
   
   socket.on('updatequeue', function (data) {
-    // console.log('BROADCAST RECEIVED!!');
-    // console.log(data);
+
     if (data.room_id == getRoomID()){
       getQueue();
     }
   });
 
   socket.on('chatupdate', function(data){
-    console.log('chat BROADCAST RECEIVED');
+    // console.log('chat BROADCAST RECEIVED');
 
     if (data.room_id == getRoomID()){
       $("#chatarea").append("<p> <b>" + data.from + ": </b>" +  data.message + "</p>");

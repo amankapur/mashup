@@ -1,17 +1,19 @@
 extends layout
 
 block content
+  script(src="/javascripts/main.js")
   div(class="row")
     div(class="span6")
       p Lobby
-      a(href="/rooms/new")
-        | New Room
-    div(class="span6")
+      form(method='post', action='/rooms/create', id="newRoomForm")
+        input(type="hidden", name="uid", value=loggedIn._id, id="uid") New room name? 
+        input(name='name', id="nameinput")
+        button(type='submit') Done
+
+    div(class="span6", id="roomlist")
       each room, i in rooms
         div
           a(href="/rooms/room/#{room._id}", class="room-list")
             | #{room.name}
           each user, j in room.users
             div(class="user-list")
-              img(src=user.photo)
-              | #{user.name}

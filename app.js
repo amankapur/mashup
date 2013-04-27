@@ -18,6 +18,10 @@ var app = express();
 var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server);
 
+// io.configure(function () {
+//   io.set('transports', ['xhr-polling']);
+// });
+
 io.sockets.on('connection', function (socket) {
   socket.on('updatequeue', function (data) {
     socket.emit('updatequeue', data);
@@ -29,6 +33,10 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit('chatupdate', data);
   });
   
+  socket.on('roomcreate', function(data){
+    socket.emit('roomcreate', data);
+    socket.broadcast.emit('roomcreate', data);
+  });
 });
 
 app.configure(function(){

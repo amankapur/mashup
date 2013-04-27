@@ -6,7 +6,8 @@ var request = require('request');
 exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
     if (err) return console.log('DB error', err);
-    res.render('room_list', {rooms: docs, title: 'List of rooms'});
+    user = req.session.user;
+    res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
   });
 };
 
@@ -92,6 +93,8 @@ exports.create = function(req, res){
     if (docs) {
       // TODO: room with that name already exists.
     } else {
+
+
       var new_room = new Room({ name: req.body.name, users: [req.body.uid] });
       new_room.save(function (err) {
         if (err) return console.log("DB error", err);
@@ -142,7 +145,7 @@ exports.delete_all = function(req, res){
 
 exports.show_all = function(req, res){
   Room.find({}, function(err, docs) { 
-    res.send(docs);
+    res.render('all_rooms', {rooms: docs});
   });
 };
 

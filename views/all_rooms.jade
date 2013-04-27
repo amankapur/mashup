@@ -1,0 +1,6 @@
+each room, i in rooms
+  div
+    a(href="/rooms/room/#{room._id}", class="room-list")
+      | #{room.name}
+    each user, j in room.users
+      div(class="user-list")
