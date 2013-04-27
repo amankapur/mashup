@@ -23,6 +23,12 @@ io.sockets.on('connection', function (socket) {
     socket.emit('updatequeue', data);
     socket.broadcast.emit('updatequeue', data);
   });
+
+  socket.on('chatupdate', function(data){
+    socket.emit('chatupdate', data);
+    socket.broadcast.emit('chatupdate', data);
+  });
+  
 });
 
 app.configure(function(){

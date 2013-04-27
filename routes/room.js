@@ -11,13 +11,20 @@ exports.list = function(req, res){
 };
 
 exports.show = function(req, res){
+  
   Room.findOne({ _id : req.params.id })
     .populate('queue')
     .populate('users')
     // TODO: need queue.added_by
     .exec(function (err, docs) {
       if (err) return console.log('DB error', err);
-      res.render('room_show', {room: docs, title: docs.name});
+
+      uid = req.user;
+      req.facebook.api('/me', function(err, data){
+
+        res.render('room_show', {curr_user: data, room: docs, title: docs.name});
+      });
+      
   });
 };
 

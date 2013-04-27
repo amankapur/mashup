@@ -4,6 +4,7 @@ block content
   script(src='/javascripts/room.js')
   script(charset="utf-8", type="text/javascript", src="http://www.youtube.com/player_api?enablejsapi=1&version=3")
   h1 #{room.name}
+  input(type="hidden", class="username", id="#{curr_user.name}") 
   div(class="row")
     div(class="span9")
       div(id="videoView")
@@ -24,5 +25,10 @@ block content
         each user, i in room.users
           div
             img(src=user.photo)
-            br #{user.name}
-  
+            br#{user.name}
+
+    div(id="chatbox", class="row")
+      div(id="chatarea", class="span4 well")
+      div(id="chatform", class="span6")
+        input(class="input-xlarge search-query", id="chat_message", type="text", placeholder="Enter message...")
+        button(class="btn", id="chat_submit") Chat

@@ -4,35 +4,76 @@ $(function () {
   var socket = io.connect('http://localhost:3000');
   
   socket.on('updatequeue', function (data) {
-    console.log('BROADCAST RECEIVED!!');
-    getQueue();
+    // console.log('BROADCAST RECEIVED!!');
+    // console.log(data);
+    if (data.room_id == getRoomID()){
+      getQueue();
+    }
+  });
+
+  socket.on('chatupdate', function(data){
+    console.log('chat BROADCAST RECEIVED');
+
+    if (data.room_id == getRoomID()){
+      $("#chatarea").append("<p> <b>" + data.from + ": </b>" +  data.message + "</p>");
+    }
   });
 
 
+  $("#chat_submit").on('click', function(){
+    sendChat();
+  });
+
+  $("#chat_message").keypress(function(e){
+    if(e.which == 13){
+      sendChat();
+    }
+  });
+
   $("#ytsubmit").on('click', function(){
+    ytsearch();
+  });
+
+  $("#ytsearch").keypress(function(e){
+    if(e.which == 13){
+      ytSearch();
+    }
+  }); 
+
+  $("body").on('click', '.addtoq', function(){
+    id = $(this).attr('id');
+
+    room_id = getRoomID();
+    
+    $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
+      socket.emit('updatequeue', {'room_id': room_id});
+      // getQueue();
+    });
+  });
+
+  var ytSearch = function(){
     query = $("#ytsearch").val();
     console.log(query);
 
     $.post('/getytvids', {'query': query}, function(data){
       $("#ytlist").html(data);
     });
-  });
 
+  }
+  var sendChat = function(){
+    message = $("#chat_message").val();
+    curr_user = $(".username").attr('id');
+    socket.emit('chatupdate', { 'from' : curr_user, 'message': message, 'room_id': getRoomID()});
+    $("#chat_message").val('');
+  }
 
-  $("body").on('click', '.addtoq', function(){
-    id = $(this).attr('id');
-
+  var getRoomID = function(){
     url = document.URL;
     a = url.split('/');
     last = a[a.length-1].split('#');
     room_id = last[0];
-    console.log(room_id);
-    $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
-      socket.emit('updatequeue', {});
-      // getQueue();
-    });
-  });
-
+    return room_id;
+  }
   var getQueue = function(){
     // Make a GET request for the queue view and 
     $.get(window.location.pathname+'/queue', function(data) {
