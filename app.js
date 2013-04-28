@@ -19,7 +19,7 @@ var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server);
 
 io.configure(function () { 
-  // io.set("transports", ["xhr-polling"]); 
+  io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
 });
 

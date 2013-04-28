@@ -1,7 +1,10 @@
 $(function () {
 
+  window.pathArray = document.URL.split( '/' );
+  host = pathArray[0] + '//' + pathArray[2]
   
-  var socket = io.connect('http://localhost:3000');
+
+  var socket = io.connect(host);
   
   socket.on('updatequeue', function (data) {
     // console.log('updatequeue');
