@@ -1,11 +1,12 @@
 
 - each vid in videos.items
 		div(class="row video")
-			div(class="span2")
+			div(class="span5 offset1")
 				img(src= vid.thumbnail.sqDefault)
-			div(class="span3")
-				a(class="btn btn-large addtoq", id=vid.id)
+			div(class="span5")
+				p=vid.title
+			div(class="span1")
+				a(class="btn addtoq", id=vid.id)
 					i(class="icon-plus") 
-			div(class="span3")
-				p= vid.title
+			br
 
