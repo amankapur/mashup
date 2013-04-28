@@ -81,7 +81,7 @@ app.get('/login', Facebook.loginRequired(), function(req, res){
 });
 app.get('/users/list', user.list);
 app.get('/users/delete_all', user.delete_all);
-app.get('/rooms/list', room.list);
+app.get('/rooms/list', facebookGetUser(), room.list);
 app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);

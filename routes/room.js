@@ -7,6 +7,7 @@ exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
     if (err) return console.log('DB error', err);
     user = req.session.user;
+    console.log("USER ##############################", user);
     res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
   });
 };
