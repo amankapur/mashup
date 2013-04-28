@@ -65,6 +65,8 @@ app.configure('development', function(){
 function facebookGetUser() {
   return function(req, res, next) {
     req.facebook.getUser( function(err, user) {
+      console.log("########## ERR ########", err);
+      console.log("########## USER ########", user);
       if (!user || err){
         res.redirect("/login");
       } else {
