@@ -2,18 +2,89 @@ extends layout
 
 block content
   script(src="/javascripts/main.js")
-  div(class="row")
-    div(class="span6")
-      p Lobby
-      form(method='post', action='/rooms/create', id="newRoomForm")
-        input(type="hidden", name="uid", value=loggedIn._id, id="uid") New room name? 
-        input(name='name', id="nameinput")
-        button(type='submit') Done
-
-    div(class="span6", id="roomlist")
-      each room, i in rooms
-        div
-          a(href="/rooms/room/#{room._id}", class="room-list")
-            | #{room.name}
+  .navbar.navbar-inverse.navbar-fixed-top
+    .navbar-inner
+        br
+        .container
+          button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a#logo.brand(href='#') Turntube.tv
+          .nav-collapse.collapse
+            ul.nav
+              li.active
+                a(href='#') Watch
+              li
+                a(href='#about') About
+            ul.nav.pull-right(style='padding-right: 20px;')
+              li
+                button.btn(type='submit', href='#login', data-toggle='modal', data-target='#login')
+                  strong#reds  Login » 
+        br
+  .container
+    .row-fluid
+        .span6.offset3
+          center
+            br
+            br
+            h1 Watch  collaboratively.
+            .pagination
+              ul
+                li.disabled
+                  a(href='#') «
+                li.active
+                  a(href='#') 1
+                li
+                  a(href='#') 2
+                li
+                  a(href='#') 3
+                li
+                  a(href='#') 4
+                li
+                  a(href='#') 5
+                li
+                  a(href='#') »
+        .span3
+          br
+          br
+          br
+          form(method='post', action='/rooms/create', id="newRoomForm")
+            center
+              input(type="hidden", name="uid", value=loggedIn._id, id="uid") New room name? 
+              input(type='text', name='name', id="nameinput", placeholder="Add new room")
+              br
+              button.btn(type='submit') 
+                strong Add Room »
+  each room, i in rooms
+    if (room % 4 === 0)
+      .row-fluid
+          .span10.offset1
+    .span3
+      ul.thumbnails
+        li
+          .thumbnail(style='padding-bottom: 10px;')
+            img(src='/img/videothumbnail.jpg', alt='')
+            a(href="/rooms/room/#{room._id}", class="room-list")
+              h4 #{room.name}
+            span.badge.badge-important #{room.users.length} Listeners
           each user, j in room.users
             div(class="user-list")
+  #login.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h3#reds Login
+      .modal-body
+        form.form-horizontal
+          .control-group
+            label.control-label(for='inputEmail') Email
+            .controls
+              input#inputEmail(type='text', placeholder='Email')
+          .control-group
+            label.control-label(for='inputPassword') Password
+            .controls
+              input#inputPassword(type='password', placeholder='Password')
+          .control-group
+            .controls
+              button.btn(type='submit')
+                strong Sign in »
