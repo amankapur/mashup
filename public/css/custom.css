@@ -83,6 +83,6 @@ p{
 }
 
 #chat{
-  height: 370px;
   overflow: scroll;
 }
+
