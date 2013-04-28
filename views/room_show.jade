@@ -39,17 +39,20 @@ block content
                 .img-polaroid(style='text-align: center; padding: 10px;')
                   each user, i in room.users
                     img(src=user.photo, width='10%')
+                div(id="queueView")
+                  h2 Video Queue
           div.span4.offset1
             br
             br
             ul.thumbnails(id="chat" )
               li
                 div.thumbnail(style='padding: 20px; text-align: left; width: 230px; height: 300px', id="chatarea")
+            
             div(class="span6")
               input( id="ytsearch")
               button( id="ytsubmit") Search youtube
               div(id="ytlist")
-              
+
             div(id="chatform")
               fieldset(style='text-align: center;')
                 legend(style='text-align: left;')
