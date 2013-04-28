@@ -18,10 +18,10 @@ var app = express();
 var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server);
 
-// io.configure(function () { 
-//   io.set("transports", ["xhr-polling"]); 
-//   io.set("polling duration", 10); 
-// });
+io.configure(function () { 
+  // io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
 
 io.sockets.on('connection', function (socket) {
   socket.on('updatequeue', function (data) {
@@ -65,9 +65,12 @@ app.configure('development', function(){
 function facebookGetUser() {
   return function(req, res, next) {
     req.facebook.getUser( function(err, user) {
+      console.log("########## ERR ########", err);
+      console.log("########## USER ########", user);
       if (!user || err){
         res.redirect("/login");
       } else {
+        console.log("USER LOGGED IN BITCHES!!!!");
         req.user = user;
         next();
       }
@@ -81,7 +84,7 @@ app.get('/login', Facebook.loginRequired(), function(req, res){
 });
 app.get('/users/list', user.list);
 app.get('/users/delete_all', user.delete_all);
-app.get('/rooms/list', room.list);
+app.get('/rooms/list', facebookGetUser(), room.list);
 app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);

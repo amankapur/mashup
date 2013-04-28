@@ -4,9 +4,9 @@ $(function () {
   var socket = io.connect('http://localhost:3000');
   
   socket.on('updatequeue', function (data) {
-    console.log('updatequeue');
-    console.log('data', data.room_id);
-    console.log('get', getRoomID());
+    // console.log('updatequeue');
+    // console.log('data', data.room_id);
+    // console.log('get', getRoomID());
     if (data.room_id == getRoomID()){
       getQueue();
     }
@@ -32,7 +32,7 @@ $(function () {
   });
 
   $("#ytsubmit").on('click', function(){
-    ytsearch();
+    ytSearch();
   });
 
   $("#ytsearch").keypress(function(e){
@@ -78,7 +78,7 @@ $(function () {
   var getQueue = function(){
     // Make a GET request for the queue view and 
     $.get(window.location.pathname+'/queue', function(data) {
-      console.log(data);
+      // console.log(data);
       $('#queueView').html(data);
     });
   };
