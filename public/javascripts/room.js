@@ -32,7 +32,7 @@ $(function () {
   });
 
   $("#ytsubmit").on('click', function(){
-    ytsearch();
+    ytSearch();
   });
 
   $("#ytsearch").keypress(function(e){
