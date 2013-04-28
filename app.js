@@ -68,6 +68,7 @@ function facebookGetUser() {
       if (!user || err){
         res.redirect("/login");
       } else {
+        console.log("USER LOGGED IN BITCHES!!!!");
         req.user = user;
         next();
       }
