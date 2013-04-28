@@ -3,32 +3,62 @@ extends layout
 block content
   script(src='/javascripts/room.js')
   script(charset="utf-8", type="text/javascript", src="http://www.youtube.com/player_api?enablejsapi=1&version=3")
-  h1 #{room.name}
+  .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+          br
+          .container
+            button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a#logo.brand(href='#') Turntube.tv
+            .nav-collapse.collapse
+              ul.nav
+                li.active
+                  a(href='#') Watch
+                li
+                  a(href='#about') About
+              ul.nav.pull-right(style='padding-right: 20px;')
+                li
+                  button.btn(type='submit')
+                    strong#reds  NEXT 
+                    | | Watch Similar Video »
+          br
+  .container
+    .row-fluid
+        .span10.offset1
+          .span7
+            br
+            br
+            ul.thumbnails
+              li
+                .thumbnail(style='padding: 20px;')
+                  iframe(width='560', height='315', src='http://www.youtube.com/embed/wfpL6_0OBuA', frameborder='0', allowfullscreen='allowfullscreen')
+                br
+                span.badge.badge-important #{room.users.length} Listeners
+                .img-polaroid(style='text-align: center; padding: 10px;')
+                  each user, i in room.users
+                    img(src=user.photo, width='10%')
+          div.span4.offset1
+            br
+            br
+            ul.thumbnails(id="chat" )
+              li
+                div.thumbnail(style='padding: 20px; text-align: left; width: 230px; height: 300px', id="chatarea")
+            div(id="chatform")
+              fieldset(style='text-align: center;')
+                legend(style='text-align: left;')
+                  h4 Speak Up...
+                textarea.input-xlarge(rows='4', placeholder='Type something…', id="chat_message")
+                br
+                button.btn(type='submit', id="chat_submit") Submit
+      .row-fluid
+        .span12
+          center
+            p © 2018 Turntube.tv | Made in Boston
+       Javascripts 
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js')
+    script(src='static/bootstrap/js/bootstrap.js')
+
   input(type="hidden", class="username", id="#{curr_user.name}") 
-  div(class="row")
-    div(class="span9")
-      div(id="videoView")
-      div(id="queueView")
-    div(class="span6")
-      input( id="ytsearch")
-      button( id="ytsubmit") Search youtube
-
-      //- form(method="post", action="/rooms/enqueue", id="enqueueForm")
-      //-   input(type="hidden", name="roomid", value=room._id)
-      //-   input(name='video', id="queueInput") Add a YouTube link for us to watch.
-      //-   button(type='submit', id="submitButton") Submit
-     
-      div(id="ytlist")
-    div(class="span2")
-      div(id="userView")
-        h4 Here:
-        each user, i in room.users
-          div
-            img(src=user.photo)
-            br#{user.name}
-
-    div(id="chatbox", class="row")
-      div(id="chatarea", class="span4 well")
-      div(id="chatform", class="span6")
-        input(class="input-xlarge search-query", id="chat_message", type="text", placeholder="Enter message...")
-        button(class="btn", id="chat_submit") Chat
+  
