@@ -17,10 +17,6 @@ block content
                 a(href='#') Watch
               li
                 a(href='#about') About
-            ul.nav.pull-right(style='padding-right: 20px;')
-              li
-                button.btn(type='submit', href='#login', data-toggle='modal', data-target='#login')
-                  strong#reds  Login » 
         br
   .container
     .row-fluid
@@ -45,17 +41,20 @@ block content
                   a(href='#') 5
                 li
                   a(href='#') »
-        .span3
+        .span2
           br
           br
           br
-          form(method='post', action='/rooms/create', id="newRoomForm")
+          form(method='post', action='/rooms/create', id="newRoomForm", style="vertical-align: middle")
             center
               input(type="hidden", name="uid", value=loggedIn._id, id="uid") New room name? 
-              input(type='text', name='name', id="nameinput", placeholder="Add new room")
+              input(type='text', name='name', id="nameinput", , style="width: 150px", placeholder="Search for a room")
               br
-              button.btn(type='submit') 
-                strong Add Room »
+              button.btn.btn-small(type='submit') 
+                strong FIND Room »
+              &nbsp;&nbsp;&nbsp;
+              button.btn.btn-small(href='#add', data-toggle='modal', data-target='#add')
+                  strong#reds  NEW » 
   each room, i in rooms
     if (room % 4 === 0)
       .row-fluid
@@ -70,21 +69,17 @@ block content
             span.badge.badge-important #{room.users.length} Listeners
           each user, j in room.users
             div(class="user-list")
-  #login.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+  #add.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
     .modal-header
         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-        h3#reds Login
+        h3#reds Create New Room
       .modal-body
         form.form-horizontal
           .control-group
-            label.control-label(for='inputEmail') Email
+            label.control-label(for='inputEmail') Name Your Room:
             .controls
-              input#inputEmail(type='text', placeholder='Email')
-          .control-group
-            label.control-label(for='inputPassword') Password
-            .controls
-              input#inputPassword(type='password', placeholder='Password')
+              input#inputName(type='text', placeholder='Room name...')
           .control-group
             .controls
               button.btn(type='submit')
-                strong Sign in »
+                strong CREATE Room »
