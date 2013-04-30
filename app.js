@@ -19,7 +19,7 @@ var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server);
 
 io.configure(function () { 
-  // io.set("transports", ["xhr-polling"]); 
+  io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
 });
 
@@ -89,6 +89,7 @@ app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);
 app.get('/rooms/room/:id/video', facebookGetUser(), room.video);
+app.get('/rooms/room/:id/videoById', facebookGetUser(), room.videoByIdAndRemoveOne);
 app.get('/rooms/room/:id/queue', facebookGetUser(), room.queue);
 app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
 app.get('/rooms/delete_all', room.delete_all);
