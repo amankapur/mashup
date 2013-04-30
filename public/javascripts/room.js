@@ -75,7 +75,7 @@ function stateChange(event) {
   case 2: //paused
     break;
   case 0: //end of video
-    socket.emit('nextvideo', { 'room_id': getRoomID()});
+    // io.connect('http://localhost:3000').emit('nextvideo', { 'room_id': getRoomID()});
     nextVideo();
     break;
   }
