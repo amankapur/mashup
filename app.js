@@ -89,13 +89,13 @@ app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);
 app.get('/rooms/room/:id/video', facebookGetUser(), room.video);
+app.get('/rooms/room/:id/videoById', facebookGetUser(), room.videoByIdAndRemoveOne);
 app.get('/rooms/room/:id/queue', facebookGetUser(), room.queue);
 app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
 app.get('/rooms/delete_all', room.delete_all);
 app.get('/rooms/show_all', room.show_all);
 app.get('/rooms/getTest', room.getTest);
 app.get('/video/delete_all', video.delete_all);
-app.get('/video/:ytid', video.video);
 app.get('/video/show_all', video.show_all);
 
 app.post('/getytvids', youtube.getvids);

@@ -30,6 +30,17 @@ exports.show = function(req, res){
   });
 };
 
+exports.videoByIdAndRemoveOne = function(req, res) {
+  Room.findOne({ _id : req.params.id }).exec(function(err, docs) {
+    var newQueue = docs.queue
+    newQueue.splice(0,1);
+    Room.findOneAndUpdate({ _id : req.params.id }, { $set: { queue: newQueue }})
+    .exec(function (err, docs1) {
+      res.render('room_video', {id: req.query.v, startOffset: 0});
+    });
+  });
+}
+
 exports.video = function(req, res){
   // TODO: Starting new video vs. joining new room. This starts the new one.
   Room.findOne({ _id : req.params.id })
