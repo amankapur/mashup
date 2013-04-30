@@ -167,14 +167,27 @@ YT_ready(function(){
     if (frameID) { //If the frame exists
         player = new YT.Player(frameID, {
             events: {
-                "onStateChange": stopCycle
+                "onStateChange": stateChange
             }
         });
     }
 });
 
 // Example: function stopCycle, bound to onStateChange
-function stopCycle(event) {
-    alert("onStateChange has fired!\nNew state:" + event.data);
+function stateChange(event) {
+  switch (event.data) {
+  case 2: //paused
+    break;
+  case 0: //end of video
+    nextVideo();
+    break;
+  }
 }
-  /******************/
+
+function nextVideo() {
+  var nextYtid = $("div#queueView img:first-child").attr('src').substring(22,33); //lol
+  console.log(nextYtid);
+  $.get('/video/' + nextYtid, function(data) {
+    $('#ytplayer').html(data);
+  });
+}

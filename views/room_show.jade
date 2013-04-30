@@ -40,7 +40,7 @@ block content
           br
           ul.thumbnails
             li
-              .thumbnail(style='padding: 20px;')
+              .thumbnail(style='padding: 20px;', id="ytplayer")
                 iframe(width='500', height='315', src='http://www.youtube.com/embed/wfpL6_0OBuA', frameborder='0', allowfullscreen='allowfullscreen')
               br
               h4 Your Queue...
@@ -65,7 +65,7 @@ block content
       .row-fluid
         .span12
           center
-            p © 2018 Turntube.tv | Made in Boston
+            p © 2018 Turntube.tv | Made in Needham
        Javascripts 
 
   input(type="hidden", class="username", id="#{curr_user.name}") 
