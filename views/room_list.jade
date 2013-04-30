@@ -10,13 +10,13 @@ block content
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a#logo.brand(href='#') Turntube.tv
+          a(href='/')logo.brand Turntube.tv
           .nav-collapse.collapse
             ul.nav
               li.active
-                a(href='#') Watch
+                a(href='/') Watch
               li
-                a(href='#about') About
+                a(href='/about') About
         br
   .container
     .row-fluid
@@ -50,7 +50,7 @@ block content
             center
               input(type='text', name='query', id="query", style="width: 150px", placeholder="Search for a room")
               br
-              button.btn.btn-small(type='submit') 
+              button.btn.btn-small(type='submit', data-target="#search", href="#search") 
                 strong FIND Room »
               &nbsp;&nbsp;&nbsp;
               button.btn.btn-small(href='#add', data-toggle='modal', data-target='#add')

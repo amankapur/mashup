@@ -30,3 +30,7 @@ exports.index = function(req, res){
     });
   }
 };
+
+exports.about = function(req, res){
+  res.send('about')
+};
