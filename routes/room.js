@@ -3,6 +3,29 @@ var Video = require('../models/video');
 var request = require('request');
 
 
+exports.search = function(req, res){
+  query = req.body.query;
+  Room.find({}).populate('users').exec(function(err, docs){
+    if (err) return console.log('DB error', err);
+
+    len = docs.length;
+    filtered = []
+    queries = query.split(' ');
+    lenq = queries.length;
+
+    for (i =0; i< lenq; i++){
+      for(j=0; j<len; j++){
+        if docs[j].name.indexOf(queries[i]) > -1 {
+          if filtered.indexOf(docs[j]) == -1 {
+            filtered.append(docs[j])
+          }
+        }
+      }
+    }
+    user = req.session.user;
+    res.render('room_list', {rooms: filtered}, title: 'List of rooms', loggedIn: user);
+  });
+}
 exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
     if (err) return console.log('DB error', err);
