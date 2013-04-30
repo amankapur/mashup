@@ -89,6 +89,7 @@ app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);
 app.get('/rooms/room/:id/video', facebookGetUser(), room.video);
+app.get('/rooms/room/:id/videoById', facebookGetUser(), room.videoByIdAndRemoveOne);
 app.get('/rooms/room/:id/queue', facebookGetUser(), room.queue);
 app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
 app.get('/rooms/delete_all', room.delete_all);
