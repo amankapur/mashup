@@ -1,13 +1,39 @@
 var Room = require('../models/room');
 var Video = require('../models/video');
 var request = require('request');
+var googleimages = require('google-images');
 
+exports.search = function(req, res){
+  query = req.body.query;
+  Room.find({}).populate('users').exec(function(err, docs){
+    if (err) return console.log('DB error', err);
 
+    len = docs.length;
+    filtered = []
+    queries = query.split(' ');
+    lenq = queries.length;
+
+    for (i =0; i< lenq; i++){
+      for(j=0; j<len; j++){
+        if (docs[j].name !== undefined){
+          if (docs[j].name.indexOf(queries[i]) > -1) {
+            if (filtered.indexOf(docs[j]) == -1) {
+              filtered.push(docs[j])
+            }
+          }
+        }
+      }
+    }
+    user = req.session.user;
+    res.render('room_list', {rooms: filtered, title: 'List of rooms', loggedIn: user});
+  });
+}
 exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
     if (err) return console.log('DB error', err);
     user = req.session.user;
-    console.log("USER ##############################", user);
+    // console.log("USER ##############################", user);
+    console.log('ROOM LIST RENDERED')
     res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
   });
 };
@@ -106,12 +132,20 @@ exports.create = function(req, res){
       // TODO: room with that name already exists.
     } else {
 
+      var name = req.body.name;
+      console.log("NAME ", req.body.name);
+      console.log("UID ", req.body.uid);
 
-      var new_room = new Room({ name: req.body.name, users: [req.body.uid] });
-      new_room.save(function (err) {
-        if (err) return console.log("DB error", err);
-        res.redirect('/rooms/room/'+new_room._id);
+      googleimages.search(name, function(err, images){
+        url = images[0].url;
+
+        var new_room = new Room({ name: req.body.name, users: [req.body.uid], imgurl: url});
+        new_room.save(function (err) {
+          if (err) return console.log("DB error", err);
+          res.redirect('/rooms/room/'+new_room._id);
+        });
       });
+
     }
   });
 };

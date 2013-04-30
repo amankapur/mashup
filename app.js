@@ -100,6 +100,7 @@ app.get('/video/show_all', video.show_all);
 app.get('/about', routes.about);
 
 app.post('/getytvids', youtube.getvids);
+app.post('/rooms/search', room.search);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
