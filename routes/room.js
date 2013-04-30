@@ -15,22 +15,25 @@ exports.search = function(req, res){
 
     for (i =0; i< lenq; i++){
       for(j=0; j<len; j++){
-        if docs[j].name.indexOf(queries[i]) > -1 {
-          if filtered.indexOf(docs[j]) == -1 {
-            filtered.append(docs[j])
+        if (docs[j].name !== undefined){
+          if (docs[j].name.indexOf(queries[i]) > -1) {
+            if (filtered.indexOf(docs[j]) == -1) {
+              filtered.push(docs[j])
+            }
           }
         }
       }
     }
     user = req.session.user;
-    res.render('room_list', {rooms: filtered}, title: 'List of rooms', loggedIn: user);
+    res.render('room_list', {rooms: filtered, title: 'List of rooms', loggedIn: user});
   });
 }
 exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
     if (err) return console.log('DB error', err);
     user = req.session.user;
-    console.log("USER ##############################", user);
+    // console.log("USER ##############################", user);
+    console.log('ROOM LIST RENDERED')
     res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
   });
 };
@@ -129,6 +132,8 @@ exports.create = function(req, res){
       // TODO: room with that name already exists.
     } else {
 
+      console.log("NAME ", req.body.name);
+      console.log("UID ", req.body.uid);
 
       var new_room = new Room({ name: req.body.name, users: [req.body.uid] });
       new_room.save(function (err) {

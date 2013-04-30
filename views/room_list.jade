@@ -45,10 +45,10 @@ block content
           br
           br
           br
-          form(method='post', action='/rooms/create', id="newRoomForm", style="vertical-align: middle")
+          //- form(method='post', action='/rooms/create', id="newRoomForm", style="vertical-align: middle")
+          form(method='post', action='/rooms/search', id="searchRoomForm", style="vertical-align: middle")
             center
-              input(type="hidden", name="uid", value=loggedIn._id, id="uid") New room name? 
-              input(type='text', name='name', id="nameinput", , style="width: 150px", placeholder="Search for a room")
+              input(type='text', name='query', id="query", style="width: 150px", placeholder="Search for a room")
               br
               button.btn.btn-small(type='submit') 
                 strong FIND Room »
@@ -74,11 +74,12 @@ block content
         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         h3#reds Create New Room
       .modal-body
-        form.form-horizontal
+        form.form-horizontal(id="newRoomForm", method="post", action="/rooms/create")
           .control-group
-            label.control-label(for='inputEmail') Name Your Room:
+            input(type="hidden", name="uid", value=loggedIn._id, id="uid")
+            label.control-label(for='inputEmail', id="") Name Your Room:
             .controls
-              input#inputName(type='text', placeholder='Room name...')
+              input#inputName(type='text', placeholder='Room name...', name='name', id="nameinput")
           .control-group
             .controls
               button.btn(type='submit')
