@@ -63,7 +63,7 @@ block content
       ul.thumbnails
         li
           .thumbnail(style='padding-bottom: 10px;')
-            img(src='/img/videothumbnail.jpg', alt='')
+            img(src= "#{room.imgurl}", alt='')
             a(href="/rooms/room/#{room._id}", class="room-list")
               h4 #{room.name}
             span.badge.badge-important #{room.users.length} Listeners

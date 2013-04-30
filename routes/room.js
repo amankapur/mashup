@@ -1,7 +1,7 @@
 var Room = require('../models/room');
 var Video = require('../models/video');
 var request = require('request');
-
+var googleimages = require('google-images');
 
 exports.search = function(req, res){
   query = req.body.query;
@@ -132,14 +132,20 @@ exports.create = function(req, res){
       // TODO: room with that name already exists.
     } else {
 
+      var name = req.body.name;
       console.log("NAME ", req.body.name);
       console.log("UID ", req.body.uid);
 
-      var new_room = new Room({ name: req.body.name, users: [req.body.uid] });
-      new_room.save(function (err) {
-        if (err) return console.log("DB error", err);
-        res.redirect('/rooms/room/'+new_room._id);
+      googleimages.search(name, function(err, images){
+        url = images[0].url;
+
+        var new_room = new Room({ name: req.body.name, users: [req.body.uid], imgurl: url});
+        new_room.save(function (err) {
+          if (err) return console.log("DB error", err);
+          res.redirect('/rooms/room/'+new_room._id);
+        });
       });
+
     }
   });
 };

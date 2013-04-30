@@ -4,6 +4,7 @@ var schema = mongoose.Schema({
   name: String,
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   queue: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+  imgurl: String,
   timeVideoStarted: Date
 });
 var Room = mongoose.model('Room', schema);
