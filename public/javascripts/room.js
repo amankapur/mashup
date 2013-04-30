@@ -4,9 +4,9 @@ $(function () {
   var socket = io.connect('http://localhost:3000');
   
   socket.on('updatequeue', function (data) {
-    // console.log('updatequeue');
-    // console.log('data', data.room_id);
-    // console.log('get', getRoomID());
+    console.log('updatequeue');
+    console.log('data', data.room_id);
+    console.log('get', getRoomID());
     if (data.room_id == getRoomID()){
       getQueue();
     }
@@ -32,14 +32,14 @@ $(function () {
   });
 
   $("#ytsubmit").on('click', function(){
-    ytSearch();
+    ytsearch();
   });
 
   $("#ytsearch").keypress(function(e){
     if(e.which == 13){
       ytSearch();
     }
-  }); 
+  });
 
   $("body").on('click', '.addtoq', function(){
     id = $(this).attr('id');
@@ -78,7 +78,7 @@ $(function () {
   var getQueue = function(){
     // Make a GET request for the queue view and 
     $.get(window.location.pathname+'/queue', function(data) {
-      // console.log(data);
+      console.log(data);
       $('#queueView').html(data);
     });
   };
@@ -89,10 +89,23 @@ $(function () {
     });
   };
 
-  //**********************
-  // needed to handle youtube state transitions, taken from stack overflow
-  //**********************
-  function getFrameID(id){
+  getQueue();
+  getVideo();
+
+  $('#enqueueForm').on('submit', function () {
+    // TODO: video submission form needs some serious validation - right now it only works if you paste in the ytID
+    $.post("/rooms/enqueue", $('#enqueueForm').serialize());
+    
+    // ajax-ly put the new video into the queue on the page. maybe a transition would be cool.
+    getQueue();
+    return false;
+  });
+
+});
+
+ /******************/
+
+function getFrameID(id){
     var elem = document.getElementById(id);
     if (elem) {
         if(/^iframe$/i.test(elem.tagName)) return id; //Frame, OK
@@ -113,62 +126,55 @@ $(function () {
     }
     // If no element, return null.
     return null;
-  }
+}
 
-  // Define YT_ready function.
-  var YT_ready = (function() {
-      var onReady_funcs = [], api_isReady = false;
-      /* @param func function     Function to execute on ready
-       * @param func Boolean      If true, all qeued functions are executed
-       * @param b_before Boolean  If true, the func will added to the first
-                                   position in the queue*/
-      return function(func, b_before) {
-          if (func === true) {
-              api_isReady = true;
-              while (onReady_funcs.length) {
-                  // Removes the first func from the array, and execute func
-                  onReady_funcs.shift()();
-              }
-          } else if (typeof func == "function") {
-              if (api_isReady) func();
-              else onReady_funcs[b_before?"unshift":"push"](func); 
-          }
-      }
-  })();
-  // This function will be called when the API is fully loaded
-  function onYouTubePlayerAPIReady() {YT_ready(true)}
+// Define YT_ready function.
+var YT_ready = (function() {
+    var onReady_funcs = [], api_isReady = false;
+    /* @param func function     Function to execute on ready
+     * @param func Boolean      If true, all qeued functions are executed
+     * @param b_before Boolean  If true, the func will added to the first
+                                 position in the queue*/
+    return function(func, b_before) {
+        if (func === true) {
+            api_isReady = true;
+            while (onReady_funcs.length) {
+                // Removes the first func from the array, and execute func
+                onReady_funcs.shift()();
+            }
+        } else if (typeof func == "function") {
+            if (api_isReady) func();
+            else onReady_funcs[b_before?"unshift":"push"](func); 
+        }
+    }
+})();
+// This function will be called when the API is fully loaded
+function onYouTubePlayerAPIReady() {YT_ready(true)}
 
-  // Load YouTube Frame API
-  (function() { // Closure, to not leak to the scope
-    var s = document.createElement("script");
-    s.src = (location.protocol == 'https:' ? 'https' : 'http') + "://www.youtube.com/player_api";
-    var before = document.getElementsByTagName("script")[0];
-    before.parentNode.insertBefore(s, before);
-  })();
+// Load YouTube Frame API
+(function() { // Closure, to not leak to the scope
+  var s = document.createElement("script");
+  s.src = (location.protocol == 'https:' ? 'https' : 'http') + "://www.youtube.com/player_api";
+  var before = document.getElementsByTagName("script")[0];
+  before.parentNode.insertBefore(s, before);
+})();
+var player; //Define a player object, to enable later function calls, without
+            // having to create a new class instance again.
 
-  // ****************
-
-  getQueue();
-  getVideo();
-
-  $('#enqueueForm').on('submit', function () {
-    // TODO: video submission form needs some serious validation - right now it only works if you paste in the ytID
-    $.post("/rooms/enqueue", $('#enqueueForm').serialize());
-    
-    // ajax-ly put the new video into the queue on the page. maybe a transition would be cool.
-    getQueue();
-    return false;
-  });
-
-  YT_ready(function(){
+// Add function to execute when the API is ready
+YT_ready(function(){
     var frameID = getFrameID("ytplayer");
     if (frameID) { //If the frame exists
         player = new YT.Player(frameID, {
             events: {
-                // this is where we define what happens when the video changes state (i.e. is done playing)
                 "onStateChange": stopCycle
             }
         });
     }
 });
-})
+
+// Example: function stopCycle, bound to onStateChange
+function stopCycle(event) {
+    alert("onStateChange has fired!\nNew state:" + event.data);
+}
+  /******************/
