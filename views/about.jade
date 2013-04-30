@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  .navbar.navbar-inverse.navbar-fixed-top
+    .navbar-inner
+      br
+      .container
+        button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a(href='/')logo.brand Turntube.tv
+          .nav-collapse.collapse
+            ul.nav
+              li.active
+                a(href='/') Watch
+              li
+                a(href='/about') About
+      br
+  .container
+    .row-fluid
+      .span10.offset1
+        .span6
+          br
+          br
+          br
+          h3  What is TurnTube.tv? 
+          .well
+            p
+              | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin cursus lectus ut libero aliquam at pharetra nibh pretium. In feugiat facilisis lobortis. Vestibulum diam erat, vulputate nec luctus sed, pulvinar at neque. Fusce lacus neque, convallis in tincidunt eu, euismod at felis. Morbi porta mauris eget tellus dapibus iaculis. Fusce quis tortor id elit bibendum tempor id nec dolor. In eu euismod mi. In semper ipsum at dui blandit ornare.
+            p
+              | Etiam non sapien sed orci placerat vehicula ac in mi. Phasellus ultrices diam est, vel tempus eros. Sed nisl dui, adipiscing vel ullamcorper at, sodales sit amet lacus. Nunc et rhoncus sapien. Sed elit elit, molestie tincidunt dapibus id, sodales eu orci. Curabitur at magna risus. magna risus. magna risus. magna risus. magna risus.
+        .span6
+          br
+          br
+          br
+          h3  Team... 
+          .well
+            img.img-circle(src='/img/rc_headshot.jpeg', width='70px')
+            hr
+            img.img-circle(src='/img/jn_headshot.jpeg', width='70px')
+            hr
+            img.img-circle(src='/img/ak_headshot.jpg', width='70px')
+    .row-fluid
+      .span10.offset1
+        h3  Contact Us... 
+        .well
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin cursus lectus ut libero aliquam at pharetra nibh pretium. In feugiat facilisis lobortis. Vestibulum diam erat, vulputate nec luctus sed, pulvinar at neque. Fusce lacus neque, convallis in tincidunt eu, euismod at felis. Morbi porta mauris eget tellus dapibus iaculis. Fusce quis tortor id elit bibendum tempor id nec dolor. In eu euismod mi. In semper ipsum at dui blandit ornare.
+    .row-fluid
+    .row-fluid
+      .span12
+        center
+          p © 2018 Turntube.tv | Made in Boston
+     Javascripts 
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js')
+  script(src='static/bootstrap/js/bootstrap.js')

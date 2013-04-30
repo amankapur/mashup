@@ -97,6 +97,7 @@ app.get('/rooms/show_all', room.show_all);
 app.get('/rooms/getTest', room.getTest);
 app.get('/video/delete_all', video.delete_all);
 app.get('/video/show_all', video.show_all);
+app.get('/about', routes.about);
 
 app.post('/getytvids', youtube.getvids);
 

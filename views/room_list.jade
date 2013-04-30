@@ -10,13 +10,13 @@ block content
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a#logo.brand(href='#') Turntube.tv
+          a(href='/')logo.brand Turntube.tv
           .nav-collapse.collapse
             ul.nav
               li.active
-                a(href='#') Watch
+                a(href='/') Watch
               li
-                a(href='#about') About
+                a(href='/about') About
         br
   .container
     .row-fluid
@@ -50,7 +50,7 @@ block content
               input(type="hidden", name="uid", value=loggedIn._id, id="uid") New room name? 
               input(type='text', name='name', id="nameinput", , style="width: 150px", placeholder="Search for a room")
               br
-              button.btn.btn-small(type='submit') 
+              button.btn.btn-small(type='submit', data-target="#search", href="#search") 
                 strong FIND Room »
               &nbsp;&nbsp;&nbsp;
               button.btn.btn-small(href='#add', data-toggle='modal', data-target='#add')
@@ -76,7 +76,7 @@ block content
       .modal-body
         form.form-horizontal
           .control-group
-            label.control-label(for='inputEmail') Name Your Room:
+            label.control-label(for='inputAdd') Name Your Room:
             .controls
               input#inputName(type='text', placeholder='Room name...')
           .control-group
