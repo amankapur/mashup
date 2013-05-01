@@ -3,7 +3,42 @@ extends layout
 block content
   script(src='/javascripts/room.js')
   script(charset="utf-8", type="text/javascript", src="http://www.youtube.com/player_api?enablejsapi=1&version=3")
-  .navbar.navbar-inverse.navbar-fixed-top
+  style(rel='stylesheet')
+    html,
+      body {
+        height: 95%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 95%;
+        height: auto !important;
+        height: 95%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -120px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 140px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+  div(id="wrap")
+    .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
           br
           .container
@@ -11,62 +46,66 @@ block content
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a#logo.brand(href='#') Turntube.tv
+            a(href='/', id='logo').brand Turntube.tv
             .nav-collapse.collapse
               ul.nav
                 li.active
-                  a(href='#') Watch
+                  a(href="/") Watch
                 li
-                  a(href='#about') About
+                  a(href="/about") About
           br
-  .container
-    .row-fluid
-        .span3
-          br
-          br
-          h4 Add to Queue...
-          hr
-          center
-            input( id="ytsearch", type="text")
-            br
-            button.btn.btn-small( id="ytsubmit") 
-              | Search 
-              strong#reds YOUTUBE »
-          hr
-          div(id="ytlist")
-        .span6
-          br
-          br
-          br
-          ul.thumbnails
-            li
-              .thumbnail(style='padding: 20px;', id="ytplayer")
-                h1 No video playing here!
-              br
-              h4 Your Queue...
-              .img-polaroid(style='text-align: center; padding: 10px;')
-                div(id="queueView")
-                  h2 Video Queue
-              
-        .span3
-          br
-          br
-          ul.thumbnails(id="chatarea")
-
-          div(id="chatform")
-            fieldset(style='text-align: center;')
-              legend(style='text-align: left;')
-                h4 Speak Up...
-              textarea.input(rows='4', placeholder='Type something…', id="chat_message")
-              br
-              button.btn.btn-mini(type='submit', id="chat_submit") 
-                strong#reds POST
-
+    .container
       .row-fluid
-        .span12
-          center
-            p © 2018 Turntube.tv | Made in Needham
-       Javascripts 
+          .span3
+            br
+            br
+            h4 Add to Queue...
+            hr
+            center
+              input( id="ytsearch", type="text")
+              br
+              button.btn.btn-small( id="ytsubmit") 
+                | Search 
+                strong#reds YOUTUBE »
+            hr
+            div(id="ytlist", style="height: 200px; overflow: scroll;")
+          .span6
+            center
+              br
+              br
+              br
+              ul.thumbnails
+                li
+                  .thumbnail(style='padding: 20px;', id="ytplayer")
+                    h1 No video playing here!
+                  
+                
+          .span3
+            br
+            br
+            ul.thumbnails(id="chatarea", style="height: 250px; overflow: scroll;", class="well")
+            div(id="chatform")
+              fieldset(style='text-align: center;')
+                legend(style='text-align: left;')
+                  h4 Speak Up...
+                textarea.input(rows='2', placeholder='Type something and press ENTER…', id="chat_message")
 
-  input(type="hidden", class="username", id="#{curr_user.name}") 
+    input(type="hidden", class="username", id="#{curr_user.name}")
+    #push
+
+  #footer
+    .container
+        h4 Queue...
+        p.muted.credit
+          div(id="queueView")
+
   
+  script(type='text/javascript')
+    var ct = 0;
+    window.setInterval(function() {
+      console.log("here")
+      jQuery(function($) {
+        $('#chatarea').scrollTop($('#chatarea').height() + ct * (20));
+        ct += 1;
+      });
+    }, 1000);

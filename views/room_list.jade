@@ -10,13 +10,13 @@ block content
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a(href='/')logo.brand Turntube.tv
+          a(href='/', id='logo').brand Turntube.tv
           .nav-collapse.collapse
             ul.nav
               li.active
-                a(href='/') Watch
+                a(href="/") Watch
               li
-                a(href='/about') About
+                a(href="/about") About
         br
   .container
     .row-fluid
@@ -24,23 +24,8 @@ block content
           center
             br
             br
+            br
             h1 Watch  collaboratively.
-            .pagination
-              ul
-                li.disabled
-                  a(href='#') «
-                li.active
-                  a(href='#') 1
-                li
-                  a(href='#') 2
-                li
-                  a(href='#') 3
-                li
-                  a(href='#') 4
-                li
-                  a(href='#') 5
-                li
-                  a(href='#') »
         .span2
           br
           br
@@ -55,6 +40,7 @@ block content
               &nbsp;&nbsp;&nbsp;
               button.btn.btn-small(href='#add', data-toggle='modal', data-target='#add')
                   strong#reds  NEW » 
+          br
   each room, i in rooms
     if (room % 4 === 0)
       .row-fluid
@@ -62,13 +48,17 @@ block content
     .span3
       ul.thumbnails
         li
-          .thumbnail(style='padding-bottom: 10px;')
-            img(src= "#{room.imgurl}", alt='')
-            a(href="/rooms/room/#{room._id}", class="room-list")
+          a(href="/rooms/room/#{room._id}", class="room-list")
+            .thumbnail(style='padding-bottom: 10px;')
+              button.close.pull-right(type='submit', id=#{room._id}, aria-hidden='true')
+                strong ×
+              br
+              img(src= "#{room.imgurl}", alt='', style='width: 250px; height: 250px; padding-top: 10px')
               h4 #{room.name}
-            span.badge.badge-important #{room.users.length} Listeners
-          each user, j in room.users
-            div(class="user-list")
+  .row-fluid
+    .span12
+      center
+        p © 2013 Turntube.tv | Made in Needham
   #add.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
     .modal-header
         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×

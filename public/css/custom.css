@@ -72,10 +72,6 @@ a{
   color: #DC143C;
 }
 
-p{
-  font-family: OpenSansRegular;
-}
-
 #logo{
   font-family: UpperEastSideRegular;
   font-size: 50px;
@@ -85,4 +81,3 @@ p{
 #chat{
   overflow: scroll;
 }
-

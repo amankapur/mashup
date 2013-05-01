@@ -1,8 +1,4 @@
 
-/**
- * Module dependencies.
- */
-
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -77,6 +73,17 @@ function facebookGetUser() {
     });
   }
 }
+
+
+app.use(function(req, res, next){
+  res.status(404);
+
+  // respond with html page
+  if (req.accepts('html')) {
+    res.render('notfound', { url: req.url });
+    return;
+  }
+});
 
 app.get('/', facebookGetUser(), routes.index);
 app.get('/login', Facebook.loginRequired(), function(req, res){
