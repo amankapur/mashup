@@ -115,6 +115,7 @@ $(function () {
     console.log('get', getRoomID());
     if (data.room_id == getRoomID()){
       getQueue();
+      
     }
   });
 
@@ -172,6 +173,16 @@ $(function () {
     });
   });
 
+  var topQueue = function(){
+    topnode = $("#queueView").find('img')[0];
+    topid = "";
+    if (topnode !== undefined){
+      topid = topnode.id;
+    }
+
+    return topid;
+
+  }
   var sendChat = function(){
     message = $("#chat_message").val();
     curr_user = $(".username").attr('id');

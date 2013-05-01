@@ -13,7 +13,8 @@
     "request": "*",
     "facebook-node-sdk":"*",
     "youtube-feeds" : "*",
-    "socket.io" : "*"
+    "socket.io" : "*",
+    "google-images":"*"
   },
     "engines": {
     "node": "0.10.x",
