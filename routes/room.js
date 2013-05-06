@@ -83,7 +83,6 @@ exports.dequeueVideoAndRenderById = function(req, res) {
   });
 }
 
-//new world
 //this is called when a room is loaded.
 exports.video = function(req,res) {
   Room.findOne({ _id : req.params.id })
@@ -104,8 +103,7 @@ exports.video = function(req,res) {
         console.log(newQueue)
         Room.findOneAndUpdate({ _id : req.params.id }, { queue: newQueue, timeVideoStarted: Date.now(), nowPlaying: newNowPlaying._id })
         .exec(function (err, docs1) {
-          console.log("in here yoooooooooooøøøøøøøøø");
-          console.log(docs1);
+          //TODO: the video v is still present in the queue on the client. This cannot ship
           res.render('room_video', {id: v, startOffset: 0});
         });
       } else {
@@ -120,40 +118,6 @@ exports.video = function(req,res) {
     }
   });
 }
-
-/* old world
-exports.video = function(req, res){
-  // TODO: Starting new video vs. joining existing room. This starts the new one.
-  Room.findOne({ _id : req.params.id })
-    .populate('queue', 'ytID', {}, { limit: 1 })
-    .exec(function(err,docs){
-      if (err) return console.log('DB error', err);
-      if (docs.queue.length != 0){
-        // If there is a video in the queue...
-        if (!docs.timeVideoStarted){
-          // ...and if it hasn't been started yet...
-          // TODO: this whole logic breaks down after the first video has completed playing.
-          Room.findOneAndUpdate({ _id : req.params.id }, { $set: { timeVideoStarted: Date.now() }})
-            .populate('queue', 'ytID', {}, { limit: 1 })
-            .exec(function (err, dogs) {
-              // this DB query bothers me (it's basically the same as the initial one..., also "dogs" should be thrown away? '_')
-              if (err) return console.log('DB error', err);
-              if (dogs.queue.length != 0) {
-                res.render('room_video', {id: dogs.queue[0].ytID, startOffset: 0});
-              } else {
-                res.send("No video playing here.");
-              }
-          });
-        } else {
-          // Offset is measured in seconds, Date.now() gives milliseconds
-          var offset = 1 + (Date.now() - docs.timeVideoStarted) / 1000;
-          res.render('room_video', {id: docs.queue[0].ytID, startOffset: offset});
-        }
-      } else {
-        res.send("No video playing here.");
-      }
-  });
-}; */
 
 exports.queue = function(req, res){
   // GET endpoint to render the video queue
