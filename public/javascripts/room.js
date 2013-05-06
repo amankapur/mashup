@@ -73,6 +73,7 @@ function stateChange(event) {
   console.log(event.data);
   switch (event.data) {
   case 2: //paused
+    //TODO: resume playing the video!
     break;
   case 0: //end of video
     nextVideo();
@@ -126,6 +127,7 @@ $(function () {
     }
   });
 
+  /* I don't think we need this one.
   socket.on('nextvideo', function (data) {
     console.log('nextvideo message received');
     console.log('data', data.room_id);
@@ -134,6 +136,7 @@ $(function () {
       nextVideo();
     }
   });
+  */
 
 
   $("#chat_submit").on('click', function(){
@@ -165,10 +168,26 @@ $(function () {
     id = $(this).attr('id');
 
     room_id = getRoomID();
-    
+
     $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
       socket.emit('updatequeue', {'room_id': room_id});
-      // getQueue();
+      if ($("#ytplayer").text() == "No video playing here. Add something to the queue!") {
+        console.log(id);
+        $.get(window.location.pathname+'/videoById?v=' + id, function(data) {
+          $('#ytplayer').html(data);
+          var frameID = getFrameID("ytplayer");
+            if (frameID) { //If the frame exists
+              player = new YT.Player(frameID, {
+                events: {
+                  "onStateChange": stateChange
+                }
+              });
+            }
+          if ($("div#queueView img:first-child").attr('src').substring(22,33) == id) {
+            $("div#queueView img:first-child").remove();
+          }
+        });
+      }
     });
   });
 

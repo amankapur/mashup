@@ -119,6 +119,10 @@ exports.video = function(req,res) {
   });
 }
 
+exports.literallyJustShowMeAVideoById = function(req,res) {
+  res.render('room_video', {id: req.query.v, startOffset: 0});
+}
+
 exports.queue = function(req, res){
   // GET endpoint to render the video queue
   Room.findOne({ _id : req.params.id })
