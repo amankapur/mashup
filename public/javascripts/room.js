@@ -68,7 +68,7 @@ YT_ready(function(){
     }
 });
 
-// Example: function stopCycle, bound to onStateChange
+// bound to onStateChange
 function stateChange(event) {
   console.log(event.data);
   switch (event.data) {
@@ -76,7 +76,6 @@ function stateChange(event) {
     break;
   case 0: //end of video
     nextVideo();
-    removeTo
     break;
   }
 }
