@@ -75,8 +75,8 @@ function stateChange(event) {
   case 2: //paused
     break;
   case 0: //end of video
-    // io.connect('http://localhost:3000').emit('nextvideo', { 'room_id': getRoomID()});
     nextVideo();
+    removeTo
     break;
   }
 }
@@ -237,21 +237,16 @@ $(function () {
   // just like nextVideo() but that doesn't work.
 
   $.get(window.location.pathname+'/video', function(data) {
-      $('#videoView').html(data);
-      var nextYtid = $("div#queueView img:first-child").attr('src').substring(22,33); //lol
-      $.get(window.location.pathname+'/videoById?v=' + nextYtid, function(data) {
-        $('#ytplayer').html(data);
-        YT_ready(function(){
-            var frameID = getFrameID("ytplayer");
-            if (frameID) { //If the frame exists
-                player = new YT.Player(frameID, {
-                    events: {
-                        "onStateChange": stateChange
-                    }
-                });
+      $('#ytplayer').html(data);
+      YT_ready(function(){
+        var frameID = getFrameID("ytplayer");
+        if (frameID) { //If the frame exists
+          player = new YT.Player(frameID, {
+            events: {
+              "onStateChange": stateChange
             }
-        });
-        $("div#queueView img:first-child").remove();
+          });
+        }
       });
     });
 

@@ -96,7 +96,7 @@ app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);
 app.get('/rooms/room/:id/video', facebookGetUser(), room.video);
-app.get('/rooms/room/:id/videoById', facebookGetUser(), room.videoByIdAndRemoveOne);
+app.get('/rooms/room/:id/videoById', facebookGetUser(), room.dequeueVideoAndRenderById);
 app.get('/rooms/room/:id/queue', facebookGetUser(), room.queue);
 app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
 app.get('/rooms/delete_all', room.delete_all);
@@ -110,5 +110,5 @@ app.post('/getytvids', youtube.getvids);
 app.post('/rooms/search', room.search);
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log("Express server listening on port 3000");
 });

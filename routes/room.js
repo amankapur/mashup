@@ -56,19 +56,74 @@ exports.show = function(req, res){
   });
 };
 
-exports.videoByIdAndRemoveOne = function(req, res) {
-  Room.findOne({ _id : req.params.id }).exec(function(err, docs) {
-    var newQueue = docs.queue
-    newQueue.splice(0,1);
-    Room.findOneAndUpdate({ _id : req.params.id }, { $set: { queue: newQueue }})
-    .exec(function (err, docs1) {
-      res.render('room_video', {id: req.query.v, startOffset: 0});
-    });
+exports.dequeueVideoAndRenderById = function(req, res) {
+  Room.findOne({ _id : req.params.id })
+  .populate('queue', 'ytID')
+  .exec(function (err, docs) {
+    var queue = docs.queue;
+    console.log("Old queue: "+ docs.queue);
+    if (queue[0].ytID == req.query.v) {
+      // This is the first user who wants the id video.
+      var newNowPlaying = { _id: queue[0]._id }; //dequeue the next video (with id req.query.v)
+      var newQueue = [];
+      for (var i = 1; i<queue.length; i++) {
+        newQueue[i-1] = { _id: queue[i]._id}; // "un-populate" the queue
+      }
+      console.log("New queue: "+ newQueue);
+      Room.findOneAndUpdate({ _id : req.params.id }, { $set: { queue: newQueue, timeVideoStarted: Date.now(), nowPlaying: newNowPlaying._id }})
+      .exec(function (err, docs1) {
+        console.log(docs1.queue)
+        res.render('room_video', {id: req.query.v, startOffset: 0});
+      });
+    } else {
+      // this client was later to the party.
+      var offset = 1 + (Date.now() - docs.timeVideoStarted) / 1000;
+      res.render('room_video', {id: req.query.v, startOffset: offset});
+    }
   });
 }
 
+//new world
+//this is called when a room is loaded.
+exports.video = function(req,res) {
+  Room.findOne({ _id : req.params.id })
+  .populate('nowPlaying', 'ytID')
+  .populate('queue', 'ytID')
+  .exec(function (err,docs){
+    if (!docs.nowPlaying) {
+      //we just loaded a room page with no video playing.
+      if (docs.queue.length != 0) {
+        //there is stuff in the queue, though, for some reason
+        //so do a similar thing to dequeueVideoAndRenderById, without the byId tho
+        var newNowPlaying = { _id: docs.queue[0]._id }; //dequeue the next video (with id req.query.v)
+        var v = docs.queue[0].ytID;
+        var newQueue = [];
+        for (var i = 1; i<docs.queue.length; i++) {
+          newQueue[i-1] = { _id: docs.queue[i]._id}; // "un-populate" the queue
+        }
+        console.log(newQueue)
+        Room.findOneAndUpdate({ _id : req.params.id }, { queue: newQueue, timeVideoStarted: Date.now(), nowPlaying: newNowPlaying._id })
+        .exec(function (err, docs1) {
+          console.log("in here yoooooooooooøøøøøøøøø");
+          console.log(docs1);
+          res.render('room_video', {id: v, startOffset: 0});
+        });
+      } else {
+        //nothing playing in the room, and nothing in the queue
+        //TODO: come up with a video to play anyway based on room name.
+        res.send("No video playing here. Add something to the queue!");
+      }
+    } else {
+      //there is a video now playing in the room that we loaded.
+      var offset = 1 + (Date.now() - docs.timeVideoStarted) / 1000;
+      res.render('room_video', {id: docs.nowPlaying.ytID, startOffset: offset});
+    }
+  });
+}
+
+/* old world
 exports.video = function(req, res){
-  // TODO: Starting new video vs. joining new room. This starts the new one.
+  // TODO: Starting new video vs. joining existing room. This starts the new one.
   Room.findOne({ _id : req.params.id })
     .populate('queue', 'ytID', {}, { limit: 1 })
     .exec(function(err,docs){
@@ -98,7 +153,7 @@ exports.video = function(req, res){
         res.send("No video playing here.");
       }
   });
-};
+}; */
 
 exports.queue = function(req, res){
   // GET endpoint to render the video queue
