@@ -96,7 +96,6 @@ app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);
 app.get('/rooms/room/:id/video', facebookGetUser(), room.video);
-app.get('/rooms/room/:id/literallyJustShowMeAVideoById', facebookGetUser(), room.literallyJustShowMeAVideoById);
 app.get('/rooms/room/:id/videoById', facebookGetUser(), room.dequeueVideoAndRenderById);
 app.get('/rooms/room/:id/queue', facebookGetUser(), room.queue);
 app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
