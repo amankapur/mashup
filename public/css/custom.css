@@ -81,3 +81,16 @@ a{
 #chat{
   overflow: scroll;
 }
+
+div#queueView {
+  height: 90px;
+  max-height: 90px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+div#queueView span {
+  padding-right: 5px;
+  display: inline-block;
+}
