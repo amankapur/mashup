@@ -64,6 +64,7 @@ function facebookGetUser() {
       console.log("########## ERR ########", err);
       console.log("########## USER ########", user);
       if (!user || err){
+        //TODO: Let's make this experience nicer. Logged-out page with "login w/ fb" button...
         res.redirect("/login");
       } else {
         console.log("USER LOGGED IN BITCHES!!!!");

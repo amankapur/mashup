@@ -1,5 +1,6 @@
 var Room = require('../models/room');
 var Video = require('../models/video');
+var User = require('../models/user');
 var request = require('request');
 var googleimages = require('google-images');
 
@@ -109,6 +110,7 @@ exports.video = function(req,res) {
       } else {
         //nothing playing in the room, and nothing in the queue
         //TODO: come up with a video to play anyway based on room name.
+        //Actually, I don't know if I want it to work that way.
         res.send("No video playing here. Add something to the queue!");
       }
     } else {
@@ -123,10 +125,14 @@ exports.queue = function(req, res){
   // GET endpoint to render the video queue
   Room.findOne({ _id : req.params.id })
     .populate('queue')
-    // TODO: need queue.added_by
     .exec(function (err, docs) {
       if (err) return console.log('DB error', err);
-      res.render('room_queue', {room: docs});
+      // Nested populate of Room.queue.added_by.photo and name
+      var opts = { path: 'queue.added_by', select: 'photo name' };
+      User.populate(docs, opts, function (err1, docs1) {
+        if (err1) return console.log('DB error', err1);
+        res.render('room_queue', {room: docs1});
+      });
   });
 };
 

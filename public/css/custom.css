@@ -91,6 +91,20 @@ div#queueView {
 }
 
 div#queueView span {
+  height: 90px;
+  max-height: 90px;
+  width: 120px;
+  max-width: 120px;
   padding-right: 5px;
   display: inline-block;
+}
+
+.queueUserPhoto {
+  border: 2px solid white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: relative;
+  bottom: -18px;
+  right: 54px;
 }
