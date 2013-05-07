@@ -94,7 +94,7 @@ function nextVideo() {
                 }
             });
         }
-    $("div#queueView img:first-child").remove();
+    $("div#queueView span:first-child").remove();
   });
 }
 
@@ -184,7 +184,7 @@ $(function () {
               });
             }
           if ($("div#queueView span:first-child img:first-child").attr("id") == id) {
-            $("div#queueView img:first-child").remove();
+            $("div#queueView span:first-child").remove();
           }
         });
       }
