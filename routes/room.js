@@ -44,7 +44,6 @@ exports.show = function(req, res){
   Room.findOne({ _id : req.params.id })
     .populate('queue')
     .populate('users')
-    // TODO: need queue.added_by
     .exec(function (err, docs) {
       if (err) return console.log('DB error', err);
 
@@ -104,7 +103,8 @@ exports.video = function(req,res) {
         console.log(newQueue)
         Room.findOneAndUpdate({ _id : req.params.id }, { queue: newQueue, timeVideoStarted: Date.now(), nowPlaying: newNowPlaying._id })
         .exec(function (err, docs1) {
-          //TODO: the video v is still present in the queue on the client. This cannot ship
+          //the video v is still present in the queue on the client.
+          //but in theory, this is never used.
           res.render('room_video', {id: v, startOffset: 0});
         });
       } else {

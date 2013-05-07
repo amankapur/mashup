@@ -82,7 +82,7 @@ function stateChange(event) {
 }
 
 function nextVideo() {
-  var nextYtid = $("div#queueView img:first-child").attr('src').substring(22,33); //lol
+  var nextYtid = $("div#queueView span:first-child img:first-child").attr("id");
   console.log(nextYtid);
   $.get(window.location.pathname+'/videoById?v=' + nextYtid, function(data) {
     $('#ytplayer').html(data);
@@ -183,7 +183,7 @@ $(function () {
                 }
               });
             }
-          if ($("div#queueView img:first-child").attr('src').substring(22,33) == id) {
+          if ($("div#queueView span:first-child img:first-child").attr("id"); == id) {
             $("div#queueView img:first-child").remove();
           }
         });
@@ -240,16 +240,6 @@ $(function () {
   }
 
   getQueue();
-  // getVideo();
-
-  $('#enqueueForm').on('submit', function () {
-    // TODO: video submission form needs some serious validation - right now it only works if you paste in the ytID
-    $.post("/rooms/enqueue", $('#enqueueForm').serialize());
-    
-    // ajax-ly put the new video into the queue on the page. maybe a transition would be cool.
-    getQueue();
-    return false;
-  });
 
   //SETUP video for the first time
   // just like nextVideo() but that doesn't work.
