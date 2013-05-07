@@ -183,7 +183,7 @@ $(function () {
                 }
               });
             }
-          if ($("div#queueView span:first-child img:first-child").attr("id"); == id) {
+          if ($("div#queueView span:first-child img:first-child").attr("id") == id) {
             $("div#queueView img:first-child").remove();
           }
         });
