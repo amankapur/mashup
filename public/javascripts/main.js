@@ -1,6 +1,10 @@
 $(function () {
 
-	var socket = io.connect('http://localhost:3000');
+
+  window.pathArray = document.URL.split( '/' );
+  host = pathArray[0] + '//' + pathArray[2]
+
+  var socket = io.connect(host);
   
   socket.on('roomcreate', function (data) {
 
@@ -17,6 +21,11 @@ $(function () {
   	})
   }
   $("#newRoomForm").submit(function(){
+
+    
   	socket.emit('roomcreate', {});
+
   });
+
+
 });

@@ -152,9 +152,13 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   // POST endpoint for making a new room
   Room.findOne({ name : req.body.name }).exec(function (err, docs) {
-    if (err) return console.log('DB error', err);
+    if (err) {
+      return console.log("DB error", err);
+    }
     if (docs) {
       // TODO: room with that name already exists.
+      // res.render("error", {msg: 'Room already exists, please enter a difference name.'});
+      
     } else {
 
       var name = req.body.name;
