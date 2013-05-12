@@ -28,11 +28,13 @@ block content
 			#fb-root
 	script(src='http://connect.facebook.net/en_US/all.js')
 	script
+			window.pathArray = document.URL.split( '/' );
+			host = pathArray[0] + '//' + pathArray[2]
 			window.fbAsyncInit = function() {
 				// init the FB JS SDK
 				FB.init({
 				appId      : '352267264887207',                        // App ID from the app dashboard
-				channelUrl : 'http://localhost:3000', // Channel file for x-domain comms
+				channelUrl : host, // Channel file for x-domain comms
 				cookie		 : true,
 				status     : true,                                 // Check Facebook Login status
 				xfbml      : true                                  // Look for social plugins on the page
