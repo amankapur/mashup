@@ -154,7 +154,7 @@ exports.create = function(req, res){
     }
     if (docs) {
       // TODO: room with that name already exists.
-      res.render("error", {msg: 'Room already exists, please enter a difference name.'});
+      res.render("error", {msg: 'Room already exists, please enter a different name.'});
       
     } else {
 
