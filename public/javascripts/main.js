@@ -12,7 +12,7 @@ $(function () {
     console.log('ROOM CREATE RECEIVED');
     if (typeof(data.url) !== "undefined")
     {
-      redirect(data.url);
+      window.location = data.url;
     }
     else {
     	getRooms();
@@ -29,8 +29,16 @@ $(function () {
   }
 
   $("body").on('click', '#newRoomForm', function(e){
-    event.preventDefault();
+    newRoom();
+  });
 
+  $("body").on('keypress', '#nameinput', function(e){
+    if (e.which == 13 ){
+      newRoom();
+    }
+  });
+
+  var newRoom = function(){
     data_name = $("#nameinput").val();
     data_uid = $("#uid").val();
     $.post('/rooms/create', {name: data_name, uid: data_uid}, function(data){
@@ -39,16 +47,10 @@ $(function () {
       }
       if (data.indexOf('/room') > -1){
         socket.emit('roomcreate', {url: host + data});
-        
-        // redirect(host + data);
       }
     
   });
 
+  }
 });
 
-});
-
-function redirect(url){
-  window.location = url;
-}
