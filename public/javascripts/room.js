@@ -73,7 +73,7 @@ function stateChange(event) {
   console.log(event.data);
   switch (event.data) {
   case 2: //paused
-    //TODO: resume playing the video!
+    player.playVideo()
     break;
   case 0: //end of video
     nextVideo();
