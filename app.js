@@ -98,9 +98,9 @@ app.use(function(req, res, next){
 });
 
 app.get('/', facebookGetUser(), routes.index);
-app.get('/login', Facebook.loginRequired(), function(req, res){
-  res.redirect('/');
-});
+// app.get('/login', Facebook.loginRequired(), function(req, res){
+//   res.redirect('/');
+// });
 app.get('/doLogin', fblogin.login);
 app.post('/loginDone', fblogin.done);
 
