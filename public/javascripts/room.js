@@ -73,7 +73,7 @@ function stateChange(event) {
   console.log(event.data);
   switch (event.data) {
   case 2: //paused
-    //TODO: resume playing the video!
+    player.playVideo()
     break;
   case 0: //end of video
     nextVideo();
@@ -82,6 +82,9 @@ function stateChange(event) {
 }
 
 function nextVideo() {
+  if ($("div#queueView span").length < 1) {
+    return
+  }
   var nextYtid = $("div#queueView span:first-child img:first-child").attr("id");
   console.log(nextYtid);
   $.get(window.location.pathname+'/videoById?v=' + nextYtid, function(data) {
@@ -171,7 +174,8 @@ $(function () {
 
     $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
       socket.emit('updatequeue', {'room_id': room_id});
-      if ($("#ytplayer").text() == "No video playing here. Add something to the queue!") {
+      var queueLength = $("div#queueView span").length;
+      if ($("#ytplayer").text() == "No video playing here. Add something to the queue!" || queueLength < 1 ) {
         console.log(id);
         $.get(window.location.pathname+'/videoById?v=' + id, function(data) {
           $('#ytplayer').html(data);

@@ -1,17 +1,32 @@
 extends layout
-
 block content
-
-
+	.navbar.navbar-inverse.navbar-fixed-top
+		.navbar-inner
+			br
+			.container
+				button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				a(href='/', id='logo').brand Turntube.tv
+				.nav-collapse.collapse
+					ul.nav
+						li.active
+							a(href='/') Watch
+						li
+							a(href='/about') About
+			br
+	br
+	br
+	br
+	br
+	.container
+		center
+			h1 Login to Turntube.tv
+			br
+			.fb-login-button(data-show-faces='true', data-width='40', data-max-rows='1', size='xlarge')
+			#fb-root
 	script(src='http://connect.facebook.net/en_US/all.js')
-	h1 login please
-
-
-
-
-
-	.fb-login-button(data-show-faces='true', data-width='200', data-max-rows='1')
-	#fb-root
 	script
 			window.fbAsyncInit = function() {
 				// init the FB JS SDK
