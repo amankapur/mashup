@@ -48,10 +48,7 @@ exports.show = function(req, res){
       if (err) return console.log('DB error', err);
 
       uid = req.user;
-      req.facebook.api('/me', function(err, data){
-
-        res.render('room_show', {curr_user: data, room: docs, title: docs.name});
-      });
+        res.render('room_show', {curr_user: req.session.user, room: docs, title: docs.name});
       
   });
 };

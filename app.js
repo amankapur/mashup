@@ -4,6 +4,7 @@ var express = require('express')
   , user = require('./routes/user')
   , room = require('./routes/room')
   , video = require('./routes/video')
+  , fblogin = require('./routes/fblogin')
   , http = require('http')
   , path = require('path')
   , mongoose = require('mongoose')
@@ -60,18 +61,28 @@ app.configure('development', function(){
 
 function facebookGetUser() {
   return function(req, res, next) {
-    req.facebook.getUser( function(err, user) {
-      console.log("########## ERR ########", err);
-      console.log("########## USER ########", user);
-      if (!user || err){
-        //TODO: Let's make this experience nicer. Logged-out page with "login w/ fb" button...
-        res.redirect("/login");
-      } else {
-        console.log("USER LOGGED IN BITCHES!!!!");
-        req.user = user;
-        next();
-      }
-    });
+    // req.facebook.getUser( function(err, user) {
+    //   console.log("########## ERR ########", err);
+    //   console.log("########## USER ########", user);
+    //   if (!user || err){
+    //     //TODO: Let's make this experience nicer. Logged-out page with "login w/ fb" button...
+
+    //     res.redirect("/doLogin");
+    //     // res.redirect("/login");
+    //   } else {
+    //     console.log("USER LOGGED IN BITCHES!!!!");
+    //     req.user = user;
+    //     next();
+    //   }
+    // });
+    
+    if (!req.session.user) {
+      console.log('user not logged in ');
+      res.redirect("/doLogin");
+    }
+    else {
+      next();
+    }
   }
 }
 
@@ -90,6 +101,9 @@ app.get('/', facebookGetUser(), routes.index);
 app.get('/login', Facebook.loginRequired(), function(req, res){
   res.redirect('/');
 });
+app.get('/doLogin', fblogin.login);
+app.post('/loginDone', fblogin.done);
+
 app.get('/users/list', user.list);
 app.get('/users/delete_all', user.delete_all);
 app.get('/rooms/list', facebookGetUser(), room.list);
