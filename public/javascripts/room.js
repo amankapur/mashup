@@ -82,7 +82,9 @@ function stateChange(event) {
 }
 
 function nextVideo() {
-  //TODO: what if there isn't a next video. what about that, huh
+  if ($("div#queueView span").length < 1) {
+    return
+  }
   var nextYtid = $("div#queueView span:first-child img:first-child").attr("id");
   console.log(nextYtid);
   $.get(window.location.pathname+'/videoById?v=' + nextYtid, function(data) {
@@ -172,7 +174,8 @@ $(function () {
 
     $.post("/rooms/enqueue", {'video': id, 'roomid': room_id}, function(data){
       socket.emit('updatequeue', {'room_id': room_id});
-      if ($("#ytplayer").text() == "No video playing here. Add something to the queue!") {
+      var queueLength = $("div#queueView span").length;
+      if ($("#ytplayer").text() == "No video playing here. Add something to the queue!" || queueLength < 1 ) {
         console.log(id);
         $.get(window.location.pathname+'/videoById?v=' + id, function(data) {
           $('#ytplayer').html(data);
