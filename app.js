@@ -103,7 +103,6 @@ app.get('/', facebookGetUser(), routes.index);
 // });
 app.get('/doLogin', fblogin.login);
 app.post('/loginDone', fblogin.done);
-
 app.get('/users/list', user.list);
 app.get('/users/delete_all', user.delete_all);
 app.get('/rooms/list', facebookGetUser(), room.list);

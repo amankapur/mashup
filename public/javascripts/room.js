@@ -82,6 +82,7 @@ function stateChange(event) {
 }
 
 function nextVideo() {
+  //TODO: what if there isn't a next video. what about that, huh
   var nextYtid = $("div#queueView span:first-child img:first-child").attr("id");
   console.log(nextYtid);
   $.get(window.location.pathname+'/videoById?v=' + nextYtid, function(data) {
