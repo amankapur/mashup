@@ -154,7 +154,7 @@ exports.create = function(req, res){
     }
     if (docs) {
       // TODO: room with that name already exists.
-      // res.render("error", {msg: 'Room already exists, please enter a difference name.'});
+      res.render("error", {msg: 'Room already exists, please enter a difference name.'});
       
     } else {
 
@@ -168,7 +168,7 @@ exports.create = function(req, res){
         var new_room = new Room({ name: req.body.name, users: [req.body.uid], imgurl: url});
         new_room.save(function (err) {
           if (err) return console.log("DB error", err);
-          res.redirect('/rooms/room/'+new_room._id);
+          res.send('/rooms/room/'+new_room._id);
         });
       });
 

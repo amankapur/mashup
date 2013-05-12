@@ -10,10 +10,6 @@ block content
 
 
 
-
-
-
-//- DONT TOUCH THIS PART PLEASE //
 	.fb-login-button(data-show-faces='true', data-width='200', data-max-rows='1')
 	#fb-root
 	script
@@ -27,7 +23,7 @@ block content
 				xfbml      : true                                  // Look for social plugins on the page
 				});
 
-				FB.Event.subscribe('auth.login', function(response) {
+				FB.Event.subscribe('auth.authResponseChange', function(response) {
 				if (response.status === 'connected') {
 				FB.api('/me', function(user){
 					console.log(user);
@@ -37,6 +33,7 @@ block content
 
 					});
 				}
+
 				});
 
 				};

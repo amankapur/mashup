@@ -18,14 +18,22 @@ $(function () {
   		
   		$("#roomlist").html(data);
   		// console.log(data);
-  	})
+  	});
   }
-  $("#newRoomForm").submit(function(){
 
-    
-  	socket.emit('roomcreate', {});
-
-  });
-
+  $("body").on('click', '#newRoomForm', function(){
+      
+    data_name = $("#nameinput").val();
+    data_uid = $("#uid").val();
+    $.post('/rooms/create', {name: data_name, uid: data_uid}, function(data){
+      if (data.indexOf('div') > -1){
+        $("#createform").prepend(data);
+      }
+      if (data.indexOf('/room') > -1){
+        window.location = host + data;
+      }
+    }); 
+    socket.emit('roomcreate', {});
+});
 
 });

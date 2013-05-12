@@ -65,7 +65,7 @@ block content
         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         h3#reds Create New Room
       .modal-body
-        form.form-horizontal(id="newRoomForm", method="post", action="/rooms/create")
+        .form-horizontal(id="createform")
           .control-group
             input(type="hidden", name="uid", value=loggedIn._id, id="uid")
             label.control-label(for='inputEmail', id="") Name Your Room:
@@ -73,5 +73,5 @@ block content
               input#inputName(type='text', placeholder='Room name...', name='name', id="nameinput")
           .control-group
             .controls
-              button.btn(type='submit')
+              button.btn(type='submit', id="newRoomForm")
                 strong CREATE Room »

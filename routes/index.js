@@ -6,7 +6,7 @@ exports.index = function(req, res){
   // } else {
     // req.facebook.api('/me', function(err, data){
     //   if (err) return console.log('Facebook error', err);
-
+      console.log(" SESSION ######", req.session.user);
       data = req.session.user;  // contains data from fb login call on the client side
       var fbid = data.id;
       var name = data.name;
