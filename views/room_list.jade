@@ -18,6 +18,10 @@ block content
                 a(href="/") Watch
               li
                 a(href="/about") About
+            ul.nav.pull-right
+              li
+                button.btn.btn-small(href='', data-toggle='modal', data-target='#add')
+                  strong#reds  LOGOUT » 
         br
   .container
     .row-fluid
@@ -27,6 +31,16 @@ block content
             br
             br
             h1 Watch  collaboratively.
+            .pagination
+              ul
+                li
+                  a(href='#') «
+                each room, i in rooms
+                  if (i % 16 === 0)
+                    li
+                      a(href="list/#{(i*0.0625+1)}") #{(i*0.0625+1)}
+                li
+                  a(href='#') »
         .span2
           br
           br
@@ -42,20 +56,18 @@ block content
               button.btn.btn-small(href='#add', data-toggle='modal', data-target='#add')
                   strong#reds  NEW » 
           br
-  each room, i in rooms
-    if (room % 4 === 0)
-      .row-fluid
-          .span10.offset1
-    .span3
-      ul.thumbnails
-        li
-          a(href="/rooms/room/#{room._id}", class="room-list")
-            .thumbnail(style='padding-bottom: 10px;')
-              button.close.pull-right(type='submit', id=#{room._id}, aria-hidden='true')
-                strong ×
-              br
-              img(src= "#{room.imgurl}", alt='', style='width: 250px; height: 250px; padding-top: 10px')
-              h4 #{room.name}
+  #roomlist
+    each room, i in rooms
+      if (room % 4 === 0)
+        .row-fluid
+            .span10.offset1
+      .span3
+        ul.thumbnails
+          li
+            a(href="/rooms/room/#{room._id}", class="room-list")
+              .thumbnail(style='padding-bottom: 10px;')
+                img(src= "#{room.imgurl}", alt='', style='width: 250px; height: 250px; padding-top: 10px')
+                h4 #{room.name}
   .row-fluid
     .span12
       center

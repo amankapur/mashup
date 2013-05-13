@@ -48,11 +48,15 @@ block content
               span.icon-bar
             a(href='/', id='logo').brand Turntube.tv
             .nav-collapse.collapse
-              ul.nav
-                li.active
-                  a(href="/") Watch
-                li
-                  a(href="/about") About
+            ul.nav
+              li.active
+                a(href="/") Watch
+              li
+                a(href="/about") About
+            ul.nav.pull-right
+              li
+                button.btn.btn-small(href='', data-toggle='modal', data-target='#add')
+                  strong#reds  LOGOUT » 
           br
     .container
       .row-fluid
@@ -77,7 +81,6 @@ block content
               ul.thumbnails
                 li
                   .thumbnail(style='padding: 20px;', id="ytplayer")
-                    h1 No video playing here!
                   
                 
           .span3

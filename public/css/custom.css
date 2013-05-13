@@ -108,3 +108,9 @@ div#queueView span {
   bottom: -18px;
   right: 54px;
 }
+
+#ytplayer{
+  height: 315px;
+  width: 500px;
+  vertical-align: middle;
+}

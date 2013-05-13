@@ -33,7 +33,8 @@ io.sockets.on('connection', function (socket) {
   
   socket.on('roomcreate', function(data){
     socket.emit('roomcreate', data);
-    socket.broadcast.emit('roomcreate', data);
+    console.log('roomcreate received on server');
+    socket.broadcast.emit('roomcreate', {});
   });
 });
 
