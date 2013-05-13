@@ -30,44 +30,36 @@ exports.search = function(req, res){
   });
 }
 
-exports.list = function(req, res){
-  Room.find({}).populate('users').exec(function (err, docs) {
-    if (err) return console.log('DB error', err);
-    user = req.session.user;
-    // console.log("USER ##############################", user);
-    console.log('ROOM LIST RENDERED')
-    res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
-  });
-};
-
 exports.listPaginated = function(req, res){
   var perPage = 16;
-  var from = ((req.params.pageNumber - 1) * perPage) + 1;
-  var to = req.params.pageNumber * perPage;
-  Room.find({})
-  .skip(from)
-  .limit(to)
-  .populate('users')
-  .exec(function (err, docs) {
-    if (err) return console.log('DB error', err);
-    user = req.session.user;
-    // console.log("USER ##############################", user);
-    console.log('ROOM LIST RENDERED')
-    res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
+  var thisPage = parseInt(req.params.pageNumber);
+  Room.count({}, function(err, count){
+    var totalPages = Math.ceil(count / 16);
+    var from = ((thisPage - 1) * perPage);
+    var to = thisPage * perPage;
+    Room.find({})
+    .skip(from)
+    .limit(to)
+    .populate('users')
+    .exec(function (err, docs) {
+      if (err) return console.log('DB error', err);
+      user = req.session.user;
+      // console.log("USER ##############################", user);
+      console.log('ROOM LIST RENDERED')
+      console.log('THIS PAGE ' + thisPage);
+      res.render('room_list', {thisPage:thisPage, totalPages:totalPages, rooms: docs, title: 'List of rooms', loggedIn : user});
+    });
   });
 };
 
 exports.show = function(req, res){
-  
   Room.findOne({ _id : req.params.id })
     .populate('queue')
     .populate('users')
     .exec(function (err, docs) {
       if (err) return console.log('DB error', err);
-
       uid = req.user;
         res.render('room_show', {curr_user: req.session.user, room: docs, title: docs.name});
-      
   });
 };
 
@@ -243,16 +235,5 @@ exports.delete_all = function(req, res){
 exports.show_all = function(req, res){
   Room.find({}, function(err, docs) { 
     res.render('all_rooms', {rooms: docs});
-  });
-};
-
-exports.getTest = function(req, res){
-  request({url:'http://gdata.youtube.com/feeds/api/videos/Dz50U_AYv3k?v=2&alt=json', json:true}, function (error, response, data) {
-    if (!error && response.statusCode == 200) {
-      var title = data.entry.title.$t;
-      var ytID = data.entry.media$group.yt$videoid.$t;
-      var thumbnail = data.entry.media$group.media$thumbnail[0].url;
-      res.send(data.entry);
-    }
   });
 };

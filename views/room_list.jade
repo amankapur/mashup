@@ -29,14 +29,19 @@ block content
             h1 Watch  collaboratively.
             .pagination
               ul
-                li
-                  a(href='#') «
-                each room, i in rooms
-                  if (i % 16 === 0)
+                if (thisPage != 1)
+                  li
+                    a(href='/rooms/page/#{(thisPage - 1)}') «
+                - for (var i = 1; i<totalPages+1; ++i)
+                  if (i != thisPage)
                     li
-                      a(href="/rooms/page/#{(i*0.0625+1)}") #{(i*0.0625+1)}
-                li
-                  a(href='#') »
+                      a(href="/rooms/page/#{i}") #{i}
+                  else
+                    li
+                      a(href="#", style="color: black;") #{i}
+                if (thisPage != totalPages)    
+                  li
+                    a(href='/rooms/page/#{(thisPage + 1)}') »
         .span2
           br
           br
