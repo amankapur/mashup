@@ -251,7 +251,18 @@ $(function () {
         if (frameID) { //If the frame exists
           player = new YT.Player(frameID, {
             events: {
-              "onStateChange": stateChange
+              "onStateChange": function(event) {
+                console.log("this one (3)")
+                console.log(event.data);
+                switch (event.data) {
+                case 2: //paused
+                  player.playVideo()
+                  break;
+                case 0: //end of video
+                  nextVideo();
+                  break;
+                }
+              }
             }
           });
         }
