@@ -17,7 +17,7 @@ exports.index = function(req, res){
           // If this user is already in the database, just take us to the room list
           console.log('user already exists');
           req.session.user = docs;
-          res.redirect('/rooms/list');
+          res.redirect('/rooms/page/1');
         } else {
           // Else create a new user and take us to the room list.
           // Maybe a weird place to do this (routes/index), but this is what /login redirects to so...

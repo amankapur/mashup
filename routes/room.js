@@ -30,22 +30,23 @@ exports.search = function(req, res){
   });
 }
 
-exports.list = function(req, res){
-  Room.find({}).populate('users').exec(function (err, docs) {
-    if (err) return console.log('DB error', err);
-    user = req.session.user;
-    // console.log("USER ##############################", user);
-    console.log('ROOM LIST RENDERED')
-    res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
-  });
-};
+// exports.list = function(req, res){
+//   Room.find({}).populate('users').exec(function (err, docs) {
+//     if (err) return console.log('DB error', err);
+//     user = req.session.user;
+//     // console.log("USER ##############################", user);
+//     console.log('ROOM LIST RENDERED')
+//     res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
+//   });
+// };
 
 exports.listPaginated = function(req, res){
   var perPage = 16;
+  var thisPage = req.params.pageNumber;
   Room.count({}, function(err, count){
     var totalPages = Math.ceil(count / 16);
-    var from = ((req.params.pageNumber - 1) * perPage) + 1;
-    var to = req.params.pageNumber * perPage;
+    var from = ((thisPage - 1) * perPage) + 1;
+    var to = thisPage * perPage;
     Room.find({})
     .skip(from)
     .limit(to)
@@ -55,7 +56,8 @@ exports.listPaginated = function(req, res){
       user = req.session.user;
       // console.log("USER ##############################", user);
       console.log('ROOM LIST RENDERED')
-      res.render('room_list', {thisPage:req.params.pageNumber, totalPages:totalPages, rooms: docs, title: 'List of rooms', loggedIn : user});
+      console.log('THIS PAGE ' + thisPage);
+      res.render('room_list', {thisPage:thisPage, totalPages:totalPages, rooms: docs, title: 'List of rooms', loggedIn : user});
     });
   });
 };
