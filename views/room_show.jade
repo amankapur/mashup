@@ -41,7 +41,7 @@ block content
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
           br
-          .container
+          .container-fluid
             button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
               span.icon-bar
               span.icon-bar
@@ -54,7 +54,7 @@ block content
               li
                 a(href="/about") About
           br
-    .container
+    .container-fluid
       .row-fluid
           .span3
             br
@@ -76,9 +76,7 @@ block content
               br
               ul.thumbnails
                 li
-                  .thumbnail(style='padding: 20px;', id="ytplayer")
-                  
-                
+                  .thumbnail(style='padding: 20px;', id="ytplayer") 
           .span3
             br
             br
@@ -93,7 +91,7 @@ block content
     #push
 
   #footer
-    .container
+    .container-fluid
         h4 Queue...
         p.muted.credit
           div(id="queueView")
