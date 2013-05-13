@@ -17,7 +17,7 @@ exports.search = function(req, res){
     for (i =0; i< lenq; i++){
       for(j=0; j<len; j++){
         if (docs[j].name !== undefined){
-          if (docs[j].name.indexOf(queries[i]) > -1) {
+          if (docs[j].name.toLowerCase().indexOf(queries[i].toLowerCase()) > -1) {
             if (filtered.indexOf(docs[j]) == -1) {
               filtered.push(docs[j])
             }
@@ -165,7 +165,7 @@ exports.new = function(req, res){
 
 exports.create = function(req, res){
   // POST endpoint for making a new room
-  Room.findOne({ name : req.body.name }).exec(function (err, docs) {
+  Room.findOne({ name : new RegExp(req.body.name, 'i') }).exec(function (err, docs) {
     if (err) {
       return console.log("DB error", err);
     }
@@ -182,7 +182,7 @@ exports.create = function(req, res){
       googleimages.search(name, function(err, images){
         url = images[0].url;
 
-        var new_room = new Room({ name: req.body.name, users: [req.body.uid], imgurl: url});
+        var new_room = new Room({ name: req.body.name$, users: [req.body.uid], imgurl: url});
         new_room.save(function (err) {
           if (err) return console.log("DB error", err);
           res.send('/rooms/room/'+new_room._id);
