@@ -164,8 +164,9 @@ exports.new = function(req, res){
 };
 
 exports.create = function(req, res){
+  var name = req.body.name;
   // POST endpoint for making a new room
-  Room.findOne({ name : req.body.name }).exec(function (err, docs) {
+  Room.findOne({ name : name }).exec(function (err, docs) {
     if (err) {
       return console.log("DB error", err);
     }
@@ -174,15 +175,13 @@ exports.create = function(req, res){
       res.render("error", {msg: 'Room already exists, please enter a different name.'});
       
     } else {
-
-      var name = req.body.name;
-      console.log("NAME ", req.body.name);
+      console.log("NAME ", name);
       console.log("UID ", req.body.uid);
 
       googleimages.search(name, function(err, images){
         url = images[0].url;
 
-        var new_room = new Room({ name: req.body.name, users: [req.body.uid], imgurl: url});
+        var new_room = new Room({ name: name, users: [req.body.uid], imgurl: url});
         new_room.save(function (err) {
           if (err) return console.log("DB error", err);
           res.send('/rooms/room/'+new_room._id);
