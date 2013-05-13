@@ -35,7 +35,7 @@ exports.listPaginated = function(req, res){
   var thisPage = req.params.pageNumber;
   Room.count({}, function(err, count){
     var totalPages = Math.ceil(count / 16);
-    var from = ((thisPage - 1) * perPage) + 1;
+    var from = ((thisPage - 1) * perPage);
     var to = thisPage * perPage;
     Room.find({})
     .skip(from)
