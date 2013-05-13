@@ -1,6 +1,5 @@
 
 exports.login = function(req, res) {
-
 	res.render('loginpage', {title: 'Turntube'});
 }
 
