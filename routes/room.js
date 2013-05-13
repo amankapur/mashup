@@ -32,7 +32,7 @@ exports.search = function(req, res){
 
 exports.listPaginated = function(req, res){
   var perPage = 16;
-  var thisPage = req.params.pageNumber;
+  var thisPage = parseInt(req.params.pageNumber);
   Room.count({}, function(err, count){
     var totalPages = Math.ceil(count / 16);
     var from = ((thisPage - 1) * perPage);
