@@ -26,7 +26,7 @@ exports.search = function(req, res){
       }
     }
     user = req.session.user;
-    res.render('room_list', {rooms: filtered, title: 'List of rooms', loggedIn: user});
+    res.render('room_list', {thisPage:1, totalPages:1, rooms: filtered, title: 'List of rooms', loggedIn: user});
   });
 }
 
