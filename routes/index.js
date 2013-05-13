@@ -27,7 +27,7 @@ exports.index = function(req, res){
             req.session.user = new_user;
 
             console.log("new user saved");
-            res.redirect('/rooms/list');
+            res.redirect('/rooms/page/1');
           });
         }
       });

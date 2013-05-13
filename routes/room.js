@@ -29,6 +29,7 @@ exports.search = function(req, res){
     res.render('room_list', {rooms: filtered, title: 'List of rooms', loggedIn: user});
   });
 }
+
 exports.list = function(req, res){
   Room.find({}).populate('users').exec(function (err, docs) {
     if (err) return console.log('DB error', err);
@@ -36,6 +37,26 @@ exports.list = function(req, res){
     // console.log("USER ##############################", user);
     console.log('ROOM LIST RENDERED')
     res.render('room_list', {rooms: docs, title: 'List of rooms', loggedIn : user});
+  });
+};
+
+exports.listPaginated = function(req, res){
+  var perPage = 16;
+  Room.count({}, function(err, count){
+    var totalPages = Math.ceil(count / 16);
+    var from = ((req.params.pageNumber - 1) * perPage) + 1;
+    var to = req.params.pageNumber * perPage;
+    Room.find({})
+    .skip(from)
+    .limit(to)
+    .populate('users')
+    .exec(function (err, docs) {
+      if (err) return console.log('DB error', err);
+      user = req.session.user;
+      // console.log("USER ##############################", user);
+      console.log('ROOM LIST RENDERED')
+      res.render('room_list', {thisPage:req.params.pageNumber, totalPages:totalPages, rooms: docs, title: 'List of rooms', loggedIn : user});
+    });
   });
 };
 
@@ -58,7 +79,14 @@ exports.dequeueVideoAndRenderById = function(req, res) {
   .populate('queue', 'ytID')
   .exec(function (err, docs) {
     var queue = docs.queue;
-    console.log("Old queue: "+ docs.queue);
+    if (queue.length < 1) {
+      // we got to the end of a queue and there's nothing left
+      Room.findOneAndUpdate({ _id : req.params.id }, { $set: { queue: [], timeVideoStarted: undefined, nowPlaying: undefined }})
+      .exec(function (err, docs1) {
+        res.send("No video playing here. Add something to the queue!");
+      });
+      return
+    }
     if (queue[0].ytID == req.query.v) {
       // This is the first user who wants the id video.
       var newNowPlaying = { _id: queue[0]._id }; //dequeue the next video (with id req.query.v)
