@@ -93,9 +93,11 @@ app.get('/login', Facebook.loginRequired(), function(req, res){
 });
 app.get('/rooms/page/:pageNumber', facebookGetUser(), room.listPaginated);
 app.get('/doLogin', fblogin.login);
-// app.post('/loginDone', fblogin.done);
-app.get('/users/list', user.list);
-app.get('/users/delete_all', user.delete_all);
+
+app.post('/loginDone', fblogin.done);
+// app.get('/users/list', user.list);
+// app.get('/users/delete_all', user.delete_all);
+
 // app.get('/rooms/list', facebookGetUser(), room.list); // don't use this anymore -- use /rooms/page/1
 app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
@@ -104,11 +106,10 @@ app.get('/rooms/room/:id/video', facebookGetUser(), room.video);
 app.get('/rooms/room/:id/videoById', facebookGetUser(), room.dequeueVideoAndRenderById);
 app.get('/rooms/room/:id/queue', facebookGetUser(), room.queue);
 app.post('/rooms/enqueue', facebookGetUser(), room.enqueue);
-app.get('/rooms/delete_all', room.delete_all);
-app.get('/rooms/show_all', room.show_all);
-app.get('/rooms/getTest', room.getTest);
-app.get('/video/delete_all', video.delete_all);
-app.get('/video/show_all', video.show_all);
+// app.get('/rooms/delete_all', room.delete_all);
+// app.get('/rooms/show_all', room.show_all);
+// app.get('/video/delete_all', video.delete_all);
+// app.get('/video/show_all', video.show_all);
 app.get('/about', routes.about);
 
 app.post('/getytvids', youtube.getvids);
