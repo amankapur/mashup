@@ -58,7 +58,14 @@ exports.dequeueVideoAndRenderById = function(req, res) {
   .populate('queue', 'ytID')
   .exec(function (err, docs) {
     var queue = docs.queue;
-    console.log("Old queue: "+ docs.queue);
+    if (queue.length < 1) {
+      // we got to the end of a queue and there's nothing left
+      Room.findOneAndUpdate({ _id : req.params.id }, { $set: { queue: [], timeVideoStarted: undefined, nowPlaying: undefined }})
+      .exec(function (err, docs1) {
+        res.send("No video playing here. Add something to the queue!");
+      });
+      return
+    }
     if (queue[0].ytID == req.query.v) {
       // This is the first user who wants the id video.
       var newNowPlaying = { _id: queue[0]._id }; //dequeue the next video (with id req.query.v)
