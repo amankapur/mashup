@@ -102,7 +102,7 @@ app.get('/', facebookGetUser(), routes.index);
 // app.get('/login', Facebook.loginRequired(), function(req, res){
 //   res.redirect('/');
 // });
-app.get('/page/:pageNumber', facebookGetUser(), room.listPaginated);
+app.get('/rooms/page/:pageNumber', facebookGetUser(), room.listPaginated);
 app.get('/doLogin', fblogin.login);
 app.post('/loginDone', fblogin.done);
 app.get('/users/list', user.list);
