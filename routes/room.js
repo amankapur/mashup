@@ -17,7 +17,7 @@ exports.search = function(req, res){
     for (i =0; i< lenq; i++){
       for(j=0; j<len; j++){
         if (docs[j].name !== undefined){
-          if (docs[j].name.indexOf(queries[i]) > -1) {
+          if (docs[j].name.toLowerCase().indexOf(queries[i].toLowerCase()) > -1) {
             if (filtered.indexOf(docs[j]) == -1) {
               filtered.push(docs[j])
             }
@@ -26,7 +26,7 @@ exports.search = function(req, res){
       }
     }
     user = req.session.user;
-    res.render('room_list', {rooms: filtered, title: 'List of rooms', loggedIn: user});
+    res.render('room_list', {thisPage:1, totalPages:1, rooms: filtered, title: 'List of rooms', loggedIn: user});
   });
 }
 
@@ -166,7 +166,7 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   var name = req.body.name;
   // POST endpoint for making a new room
-  Room.findOne({ name : name }).exec(function (err, docs) {
+  Room.findOne({ name : new RegExp(req.body.name, 'i') }).exec(function (err, docs) {
     if (err) {
       return console.log("DB error", err);
     }
@@ -177,10 +177,8 @@ exports.create = function(req, res){
     } else {
       console.log("NAME ", name);
       console.log("UID ", req.body.uid);
-
       googleimages.search(name, function(err, images){
         url = images[0].url;
-
         var new_room = new Room({ name: name, users: [req.body.uid], imgurl: url});
         new_room.save(function (err) {
           if (err) return console.log("DB error", err);
