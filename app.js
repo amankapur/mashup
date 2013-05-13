@@ -105,9 +105,9 @@ app.get('/', facebookGetUser(), routes.index);
 app.get('/rooms/page/:pageNumber', facebookGetUser(), room.listPaginated);
 app.get('/doLogin', fblogin.login);
 app.post('/loginDone', fblogin.done);
-// app.get('/users/list', user.list); // don't use this anymore -- use /rooms/page/1
+app.get('/users/list', user.list);
 app.get('/users/delete_all', user.delete_all);
-app.get('/rooms/list', facebookGetUser(), room.list);
+// app.get('/rooms/list', facebookGetUser(), room.list); // don't use this anymore -- use /rooms/page/1
 app.get('/rooms/new', facebookGetUser(), room.new);
 app.post('/rooms/create', facebookGetUser(), room.create);
 app.get('/rooms/room/:id', facebookGetUser(), room.show);
