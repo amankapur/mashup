@@ -31,6 +31,16 @@ block content
             br
             br
             h1 Watch  collaboratively.
+            .pagination
+              ul
+                li
+                  a(href='#') «
+                each room, i in rooms
+                  if (i % 16 === 0)
+                    li
+                      a(href="list/#{(i*0.0625+1)}") #{(i*0.0625+1)}
+                li
+                  a(href='#') »
         .span2
           br
           br
