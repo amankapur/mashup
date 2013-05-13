@@ -1,13 +1,11 @@
 var User = require('../models/user');
 
 exports.index = function(req, res){
-  // if (req.session.user){
-  //   res.redirect('/rooms/list');
-  // } else {
-    // req.facebook.api('/me', function(err, data){
-    //   if (err) return console.log('Facebook error', err);
-      console.log(" SESSION ######", req.session.user);
-      data = req.session.user;  // contains data from fb login call on the client side
+  if (req.session.user){
+    res.redirect('/rooms/page/1');
+  } else {
+    req.facebook.api('/me', function(err, data){
+      if (err) return console.log('Facebook error', err);
       var fbid = data.id;
       var name = data.name;
       var photo = "https://graph.facebook.com/"+data.id+"/picture?type=square"
@@ -31,8 +29,8 @@ exports.index = function(req, res){
           });
         }
       });
-  //   });
-  // }
+    });
+  }
 };
 
 exports.about = function(req, res){

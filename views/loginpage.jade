@@ -24,35 +24,4 @@ block content
 		center
 			h1 Login to Turntube.tv
 			br
-			.fb-login-button(data-show-faces='true', data-width='40', data-max-rows='1', size='xlarge')
-			#fb-root
-	script(src='http://connect.facebook.net/en_US/all.js')
-	script
-			window.pathArray = document.URL.split( '/' );
-			host = pathArray[0] + '//' + pathArray[2]
-			window.fbAsyncInit = function() {
-				// init the FB JS SDK
-				FB.init({
-				appId      : '352267264887207',                        // App ID from the app dashboard
-				channelUrl : host, // Channel file for x-domain comms
-				cookie		 : true,
-				status     : true,                                 // Check Facebook Login status
-				xfbml      : true                                  // Look for social plugins on the page
-				});
-
-				FB.Event.subscribe('auth.authResponseChange', function(response) {
-				if (response.status === 'connected') {
-				FB.api('/me', function(user){
-					console.log(user);
-					$.post('/loginDone', {userdata: user}, function(data){
-							window.location = '/';
-						});
-
-					});
-				}
-
-				});
-
-				};
-
-
+			a.btn.btn-primary.btn-large(href='/login') Login with Facebook
